@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BlackPrint — Explorador de Avalúos</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<style>
+/* ── Brand tokens ──────────────────────────────────────────────────── */
+:root {
+  --depth-9: #2F2F2F;
+  --depth-8: #383838;
+  --depth-7: #484848;
+  --depth-6: #646669;
+  --depth-5: #8D9398;
+  --depth-3: #B7BCC0;
+  --depth-1: #D7DCE0;
+  --on-secondary: #231F20;
+  --on-primary: #FFFFFF;
+  --blue-h: #52BCF5;
+  --blue-p: #0875E3;
+  --pink-h: #FF9E9E;
+  --pink-p: #FE2B7C;
+  --success: #0CA036;
+  --warning: #C0CA33;
+  --danger: #AA2009;
+  --coral: #FF6F61;
+  --natural-cream: #E2D9D0;
+  --natural-brown: #493628;
+  --cool-navy: #8AA0CA;
+
+  --font-sans: "Work Sans", sans-serif;
+  --font-ui: "Inter", sans-serif;
+
+  --sidebar-w: 300px;
+  --header-h: 56px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  background: #F7F8F9;
+  color: var(--on-secondary);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ────────────────────────────────────────────────────────── */
+#header {
+  height: var(--header-h);
+  background: var(--depth-9);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--depth-7);
+}
+
+.logo {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.03em;
+  color: var(--on-primary);
+}
+.logo span { color: var(--blue-p); }
+
+.header-pill {
+  background: var(--depth-7);
+  color: var(--depth-3);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#total-badge {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--depth-3);
+}
+#total-badge strong { color: var(--blue-h); }
+
+#loading-bar {
+  position: absolute;
+  top: var(--header-h);
+  left: 0; right: 0;
+  height: 2px;
+  background: var(--blue-p);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  z-index: 9999;
+}
+#loading-bar.active { transform: scaleX(0.7); }
+#loading-bar.done { transform: scaleX(1); opacity: 0; transition: transform 0.2s, opacity 0.3s 0.2s; }
+
+/* ── Layout ────────────────────────────────────────────────────────── */
+#body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Sidebar ───────────────────────────────────────────────────────── */
+#sidebar {
+  width: var(--sidebar-w);
+  background: var(--on-primary);
+  border-right: 1px solid var(--depth-1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.sidebar-section {
+  border-bottom: 1px solid var(--depth-1);
+  padding: 14px 16px;
+}
+
+.sidebar-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--depth-5);
+  margin-bottom: 10px;
+}
+
+.filter-group { margin-bottom: 10px; }
+.filter-group label {
+  font-size: 12px;
+  color: var(--depth-6);
+  display: block;
+  margin-bottom: 4px;
+}
+
+select, input[type=range] {
+  width: 100%;
+  font-family: var(--font-ui);
+  font-size: 13px;
+}
+
+select {
+  background: #F7F8F9;
+  border: 1px solid var(--depth-1);
+  border-radius: 6px;
+  padding: 6px 8px;
+  color: var(--on-secondary);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238D9398' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 28px;
+}
+select:focus { outline: none; border-color: var(--blue-p); }
+
+.range-row { display: flex; align-items: center; gap: 8px; }
+.range-val {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--depth-5);
+  white-space: nowrap;
+  min-width: 60px;
+  text-align: right;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  height: 4px;
+  background: var(--depth-1);
+  border-radius: 2px;
+  flex: 1;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  background: var(--blue-p);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#btn-apply {
+  width: 100%;
+  background: var(--blue-p);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-top: 2px;
+}
+#btn-apply:hover { background: var(--blue-h); color: var(--on-secondary); }
+
+#btn-reset {
+  width: 100%;
+  background: transparent;
+  color: var(--depth-5);
+  border: 1px solid var(--depth-1);
+  border-radius: 8px;
+  padding: 8px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: all 0.15s;
+}
+#btn-reset:hover { border-color: var(--depth-5); color: var(--on-secondary); }
+
+/* ── KPI cards en sidebar ──────────────────────────────────────────── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 14px 16px;
+}
+.kpi-card {
+  background: #F7F8F9;
+  border: 1px solid var(--depth-1);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.kpi-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--depth-5);
+  margin-bottom: 4px;
+}
+.kpi-val {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--on-secondary);
+  letter-spacing: -0.02em;
+}
+.kpi-val.accent { color: var(--blue-p); }
+
+/* ── Main area ─────────────────────────────────────────────────────── */
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Tabs ──────────────────────────────────────────────────────────── */
+#tabs {
+  display: flex;
+  gap: 0;
+  background: var(--on-primary);
+  border-bottom: 1px solid var(--depth-1);
+  padding: 0 20px;
+  flex-shrink: 0;
+}
+.tab-btn {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--depth-5);
+  background: none;
+  border: none;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  letter-spacing: -0.01em;
+}
+.tab-btn:hover { color: var(--on-secondary); }
+.tab-btn.active {
+  color: var(--blue-p);
+  border-bottom-color: var(--blue-p);
+  font-weight: 600;
+}
+
+.tab-icon {
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+  margin-right: 4px;
+  opacity: 0.6;
+  filter: invert(0);
+}
+
+/* ── Tab panels ────────────────────────────────────────────────────── */
+.tab-panel { display: none; flex: 1; overflow: hidden; }
+.tab-panel.active { display: flex; flex-direction: column; }
+
+/* ── Map ───────────────────────────────────────────────────────────── */
+#map { flex: 1; z-index: 1; }
+
+/* ── Charts panel ──────────────────────────────────────────────────── */
+#panel-charts {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background: #F7F8F9;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 1200px;
+}
+
+.chart-card {
+  background: var(--on-primary);
+  border: 1px solid var(--depth-1);
+  border-radius: 12px;
+  padding: 20px;
+}
+.chart-card.full { grid-column: 1 / -1; }
+
+.chart-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--on-secondary);
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+.chart-subtitle {
+  font-size: 11px;
+  color: var(--depth-5);
+  margin-top: 2px;
+  font-weight: 400;
+}
+
+.chart-wrap { position: relative; height: 220px; }
+.chart-wrap.tall { height: 300px; }
+
+/* ── Table panel ───────────────────────────────────────────────────── */
+#panel-table {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.table-toolbar {
+  padding: 12px 20px;
+  background: var(--on-primary);
+  border-bottom: 1px solid var(--depth-1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.table-toolbar input {
+  flex: 1;
+  max-width: 320px;
+  padding: 7px 12px;
+  border: 1px solid var(--depth-1);
+  border-radius: 6px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  background: #F7F8F9;
+}
+.table-toolbar input:focus { outline: none; border-color: var(--blue-p); }
+
+.table-count {
+  font-size: 12px;
+  color: var(--depth-5);
+  margin-left: auto;
+}
+
+/* ── Pagination ────────────────────────────────────────────────────── */
+.table-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--on-primary);
+  border-top: 1px solid var(--depth-1);
+  flex-shrink: 0;
+}
+.page-btn {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--depth-1);
+  background: var(--on-primary);
+  color: var(--on-secondary);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.page-btn:hover:not(:disabled) { border-color: var(--blue-p); color: var(--blue-p); }
+.page-btn:disabled { opacity: 0.35; cursor: default; }
+.page-btn.active { background: var(--blue-p); color: #fff; border-color: var(--blue-p); }
+.page-info {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--depth-5);
+  min-width: 110px;
+  text-align: center;
+}
+
+.table-wrap { flex: 1; overflow: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-ui);
+  font-size: 12px;
+}
+thead th {
+  background: var(--on-primary);
+  color: var(--depth-5);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--depth-1);
+  position: sticky;
+  top: 0;
+  cursor: pointer;
+  user-select: none;
+}
+thead th:hover { color: var(--on-secondary); }
+
+tbody tr { border-bottom: 1px solid #F7F8F9; }
+tbody tr:hover { background: #F0F4FF; }
+tbody td { padding: 9px 14px; color: var(--on-secondary); }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.badge-tipo { background: #EEF4FF; color: var(--blue-p); }
+.badge-clase { background: #FFF0F5; color: var(--pink-p); }
+.badge-cons-4 { background: #E8F5E9; color: #2E7D32; }
+.badge-cons-5 { background: #E8F5E9; color: #1B5E20; }
+.badge-cons-6 { background: #E3F2FD; color: #1565C0; }
+.badge-cons-7 { background: #E8EAF6; color: #283593; }
+.badge-cons-default { background: #F5F5F5; color: #757575; }
+
+/* ── Map popup ─────────────────────────────────────────────────────── */
+.leaflet-popup-content-wrapper {
+  border-radius: 10px !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15) !important;
+  padding: 0 !important;
+}
+.leaflet-popup-content { margin: 0 !important; min-width: 220px; }
+.popup-inner { padding: 14px 16px; }
+.popup-tipo {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blue-p);
+  margin-bottom: 4px;
+}
+.popup-valor {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--on-secondary);
+  letter-spacing: -0.02em;
+  margin-bottom: 2px;
+}
+.popup-m2 {
+  font-size: 12px;
+  color: var(--depth-5);
+  margin-bottom: 10px;
+}
+.popup-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  font-size: 11px;
+}
+.popup-grid span { color: var(--depth-5); }
+.popup-grid strong { color: var(--on-secondary); font-weight: 500; }
+
+/* ── Map legend ────────────────────────────────────────────────────── */
+.map-legend {
+  background: white;
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-family: var(--font-ui);
+  font-size: 11px;
+}
+.map-legend h4 {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--depth-5);
+  margin-bottom: 8px;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── Rankings ──────────────────────────────────────────────────────── */
+#rank-estados-table thead th,
+#rank-municipios-table thead th {
+  background: var(--on-primary);
+  color: var(--depth-5);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--depth-1);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+#rank-estados-table thead th:hover,
+#rank-municipios-table thead th:hover { color: var(--on-secondary); }
+#rank-estados-table tbody tr,
+#rank-municipios-table tbody tr { border-bottom: 1px solid #F7F8F9; cursor: pointer; }
+#rank-estados-table tbody tr:hover,
+#rank-municipios-table tbody tr:hover { background: #F0F4FF; }
+#rank-estados-table tbody td,
+#rank-municipios-table tbody td { padding: 9px 14px; font-size: 12px; font-family: var(--font-ui); }
+
+.rank-bar-wrap { background: var(--depth-1); border-radius: 3px; height: 6px; overflow: hidden; }
+.rank-bar-fill { height: 100%; border-radius: 3px; background: var(--blue-p); transition: width 0.3s; }
+
+/* ── Comparador KPI ────────────────────────────────────────────────── */
+.comp-kpi-card {
+  background: var(--on-primary);
+  border: 1px solid var(--depth-1);
+  border-radius: 12px;
+  padding: 16px;
+}
+.comp-kpi-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--depth-5);
+  margin-bottom: 12px;
+}
+.comp-kpi-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.comp-kpi-zone { text-align: center; }
+.comp-kpi-zone-label {
+  font-size: 10px;
+  color: var(--depth-5);
+  margin-bottom: 4px;
+}
+.comp-kpi-zone-val {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.comp-kpi-zone-val.zona-a { color: var(--blue-p); }
+.comp-kpi-zone-val.zona-b { color: var(--pink-p); }
+.comp-winner {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-top: 4px;
+  display: inline-block;
+}
+.comp-winner.zona-a { background: #EEF4FF; color: var(--blue-p); }
+.comp-winner.zona-b { background: #FFF0F5; color: var(--pink-p); }
+@media (max-width: 900px) {
+  :root { --sidebar-w: 260px; }
+  .charts-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="loading-bar"></div>
+
+<!-- HEADER -->
+<div id="header">
+  <img src="/static/assets/logo-light.png" alt="BlackPrint" style="height:28px;object-fit:contain;">
+  <div class="header-pill">Avalúos · Sep 2024</div>
+  <!-- <div class="header-right">
+    <div id="total-badge">Mostrando <strong id="showing-count">—</strong> avalúos</div>
+  </div> -->
+</div>
+
+<div id="body">
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Total</div>
+        <div class="kpi-val accent" id="kpi-total">—</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Val. Promedio</div>
+        <div class="kpi-val" id="kpi-valor">—</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Mediana</div>
+        <div class="kpi-val" id="kpi-mediana">—</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">$/m² Prom.</div>
+        <div class="kpi-val" id="kpi-m2">—</div>
+      </div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="sidebar-section" style="flex:1; overflow-y:auto;">
+      <div class="sidebar-label">Filtros</div>
+
+      <div class="filter-group">
+        <label>Estado</label>
+        <select id="f-estado"><option value="">Todos los estados</option></select>
+      </div>
+
+      <div class="filter-group">
+        <label>Municipio</label>
+        <select id="f-municipio"><option value="">Todos los municipios</option></select>
+      </div>
+
+      <div class="filter-group">
+        <label>Tipo de inmueble</label>
+        <select id="f-tipo"><option value="">Todos los tipos</option></select>
+      </div>
+
+      <div class="filter-group">
+        <label>Clase de construcción</label>
+        <select id="f-clase"><option value="">Todas las clases</option></select>
+      </div>
+
+      <div class="filter-group">
+        <label>Estado de conservación</label>
+        <select id="f-conservacion"><option value="">Todos</option></select>
+      </div>
+
+      <div class="filter-group">
+        <label>Grupo / Banco</label>
+        <select id="f-grupo"><option value="">Todos los grupos</option></select>
+      </div>
+
+      <div class="filter-group">
+        <label>Valor máximo (MXN)</label>
+        <div class="range-row">
+          <input type="range" id="f-valor-max" min="200000" max="10000000" step="100000" value="10000000"/>
+          <div class="range-val" id="f-valor-max-label">$10M</div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label>Recámaras mínimas</label>
+        <select id="f-recamaras">
+          <option value="">Cualquiera</option>
+          <option value="1">1+</option>
+          <option value="2">2+</option>
+          <option value="3">3+</option>
+          <option value="4">4+</option>
+        </select>
+      </div>
+
+      <button id="btn-apply">Aplicar filtros</button>
+      <button id="btn-reset">Limpiar filtros</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main">
+    <!-- TABS -->
+    <div id="tabs">
+      <button class="tab-btn active" data-tab="map"><img src="/static/assets/icons/map.svg" class="tab-icon"> Mapa</button>
+      <button class="tab-btn" data-tab="charts"><img src="/static/assets/icons/trend.svg" class="tab-icon"> Análisis</button>
+      <button class="tab-btn" data-tab="rankings"><img src="/static/assets/icons/sort.svg" class="tab-icon"> Rankings</button>
+      <button class="tab-btn" data-tab="comparador"><img src="/static/assets/icons/compare.svg" class="tab-icon"> Comparador</button>
+      <button class="tab-btn" data-tab="insights"><img src="/static/assets/icons/layers.svg" class="tab-icon"> Insights</button>
+      <button class="tab-btn" data-tab="table"><img src="/static/assets/icons/filter.svg" class="tab-icon"> Registros</button>
+    </div>
+
+    <!-- MAP PANEL -->
+    <div class="tab-panel active" id="tab-map">
+      <div id="map"></div>
+    </div>
+
+    <!-- CHARTS PANEL -->
+    <div class="tab-panel" id="tab-charts">
+      <div id="panel-charts">
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-title">Tipo de Inmueble
+              <div class="chart-subtitle">Distribución por tipo</div>
+            </div>
+            <div class="chart-wrap"><canvas id="chart-tipo"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Clase de Construcción
+              <div class="chart-subtitle">Distribución por clase</div>
+            </div>
+            <div class="chart-wrap"><canvas id="chart-clase"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Estado de Conservación
+              <div class="chart-subtitle">Condición de los inmuebles</div>
+            </div>
+            <div class="chart-wrap"><canvas id="chart-cons"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Grupo / Institución
+              <div class="chart-subtitle">Por institución otorgante</div>
+            </div>
+            <div class="chart-wrap"><canvas id="chart-grupo"></canvas></div>
+          </div>
+          <div class="chart-card full">
+            <div class="chart-title">Avalúos por Estado
+              <div class="chart-subtitle">Volumen de avalúos — top 20 estados · <span style="color:var(--blue-p)">click para filtrar</span></div>
+            </div>
+            <div class="chart-wrap tall"><canvas id="chart-estados"></canvas></div>
+          </div>
+          <div class="chart-card full">
+            <div class="chart-title">Valor promedio por Estado (MXN)
+              <div class="chart-subtitle">Top 15 estados por valor de avalúo promedio</div>
+            </div>
+            <div class="chart-wrap tall"><canvas id="chart-valor-estado"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RANKINGS PANEL -->
+    <div class="tab-panel" id="tab-rankings">
+      <div id="panel-rankings" style="flex:1;overflow-y:auto;padding:20px;background:#F7F8F9;">
+        <div style="max-width:1100px;">
+
+          <!-- Rankings estados -->
+          <div class="chart-card" style="margin-bottom:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+              <div>
+                <div class="chart-title">Ranking por Estado</div>
+                <div class="chart-subtitle">Haz click en una columna para ordenar · Click en estado para filtrar</div>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button class="page-btn active" id="rank-metric-count" onclick="setRankMetric('count')">Volumen</button>
+                <button class="page-btn" id="rank-metric-valor" onclick="setRankMetric('valor')">Valor prom.</button>
+                <button class="page-btn" id="rank-metric-m2" onclick="setRankMetric('m2')">$/m²</button>
+              </div>
+            </div>
+            <div style="overflow-x:auto;">
+              <table id="rank-estados-table" style="width:100%">
+                <thead>
+                  <tr>
+                    <th style="width:32px;text-align:center">#</th>
+                    <th data-rank-col="estado">Estado</th>
+                    <th data-rank-col="count" style="text-align:right">Avalúos</th>
+                    <th data-rank-col="valor" style="text-align:right">Valor Prom.</th>
+                    <th data-rank-col="mediana" style="text-align:right">Mediana</th>
+                    <th data-rank-col="m2" style="text-align:right">$/m²</th>
+                    <th data-rank-col="sup" style="text-align:right">Sup. Prom.</th>
+                    <th style="width:120px">Distribución</th>
+                  </tr>
+                </thead>
+                <tbody id="rank-estados-body"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Rankings municipios -->
+          <div class="chart-card">
+            <div style="margin-bottom:16px;">
+              <div class="chart-title">Ranking por Municipio <span style="font-weight:400;color:var(--depth-5);font-size:13px" id="rank-mun-subtitle">— top 20</span></div>
+              <div class="chart-subtitle">Solo municipios con nombre identificado</div>
+            </div>
+            <div style="overflow-x:auto;">
+              <table id="rank-municipios-table" style="width:100%">
+                <thead>
+                  <tr>
+                    <th style="width:32px;text-align:center">#</th>
+                    <th>Municipio</th>
+                    <th>Estado</th>
+                    <th data-rank-mun-col="count" style="text-align:right">Avalúos</th>
+                    <th data-rank-mun-col="valor" style="text-align:right">Valor Prom.</th>
+                    <th data-rank-mun-col="m2" style="text-align:right">$/m²</th>
+                  </tr>
+                </thead>
+                <tbody id="rank-municipios-body"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPARADOR PANEL -->
+    <div class="tab-panel" id="tab-comparador">
+      <div style="flex:1;overflow-y:auto;padding:20px;background:#F7F8F9;">
+        <div style="max-width:1000px;">
+
+          <!-- Selectores -->
+          <div class="chart-card" style="margin-bottom:16px;">
+            <div class="chart-title" style="margin-bottom:16px;">Comparar dos zonas</div>
+            <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;">
+              <div>
+                <div class="sidebar-label" style="margin-bottom:6px;">Zona A</div>
+                <select id="comp-zona-a" style="width:100%;padding:8px 10px;border:2px solid var(--blue-p);border-radius:8px;font-family:var(--font-ui);font-size:13px;background:#F0F6FF;">
+                  <option value="">Selecciona un estado</option>
+                </select>
+              </div>
+              <div style="font-size:20px;color:var(--depth-5);font-weight:700;text-align:center;">VS</div>
+              <div>
+                <div class="sidebar-label" style="margin-bottom:6px;">Zona B</div>
+                <select id="comp-zona-b" style="width:100%;padding:8px 10px;border:2px solid var(--pink-p);border-radius:8px;font-family:var(--font-ui);font-size:13px;background:#FFF0F5;">
+                  <option value="">Selecciona un estado</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resultado comparación -->
+          <div id="comp-result" style="display:none;">
+
+            <!-- KPIs comparativos -->
+            <div id="comp-kpis" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;"></div>
+
+            <!-- Gráficas comparativas -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div class="chart-card">
+                <div class="chart-title">Distribución por Tipo</div>
+                <div class="chart-wrap"><canvas id="comp-chart-tipo"></canvas></div>
+              </div>
+              <div class="chart-card">
+                <div class="chart-title">Distribución por Clase</div>
+                <div class="chart-wrap"><canvas id="comp-chart-clase"></canvas></div>
+              </div>
+              <div class="chart-card">
+                <div class="chart-title">Valor por Conservación</div>
+                <div class="chart-wrap"><canvas id="comp-chart-cons"></canvas></div>
+              </div>
+              <div class="chart-card">
+                <div class="chart-title">Top Colonias por Volumen</div>
+                <div class="chart-wrap"><canvas id="comp-chart-colonias"></canvas></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="comp-empty" style="text-align:center;padding:60px;color:var(--depth-5);">
+            <div style="font-size:40px;margin-bottom:12px;">⚖️</div>
+            <div style="font-size:14px;">Selecciona dos estados para comparar sus métricas</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- INSIGHTS PANEL -->
+    <div class="tab-panel" id="tab-insights">
+      <div style="flex:1;overflow-y:auto;padding:20px;background:#F7F8F9;">
+        <div style="max-width:1100px;display:flex;flex-direction:column;gap:16px;">
+
+          <!-- Subtabs -->
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="page-btn active" id="ins-tab-outliers" onclick="showInsightTab('outliers')">Outliers</button>
+            <button class="page-btn" id="ins-tab-valuadoras" onclick="showInsightTab('valuadoras')">Unidades Valuadoras</button>
+            <button class="page-btn" id="ins-tab-comparables" onclick="showInsightTab('comparables')">Comparables</button>
+            <button class="page-btn" id="ins-tab-concentracion" onclick="showInsightTab('concentracion')">Concentración</button>
+          </div>
+
+          <!-- OUTLIERS -->
+          <div id="ins-outliers">
+            <div class="chart-card" style="margin-bottom:16px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                <div>
+                  <div class="chart-title">Avalúos Atípicos por $/m²</div>
+                  <div class="chart-subtitle">Registros con $/m² fuera de 2 desviaciones estándar de su estado</div>
+                </div>
+                <div id="outlier-badge" style="background:#FFF0F5;color:var(--pink-p);font-family:var(--font-ui);font-size:13px;font-weight:600;padding:6px 14px;border-radius:999px;"></div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                <div class="chart-wrap" style="height:200px"><canvas id="chart-outliers-estado"></canvas></div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <div style="background:#F7F8F9;border-radius:8px;padding:12px;">
+                    <div class="sidebar-label">Outliers altos (sobrevalorados)</div>
+                    <div id="outlier-alto-count" style="font-family:var(--font-ui);font-size:20px;font-weight:700;color:var(--pink-p)">—</div>
+                    <div class="chart-subtitle">$/m² muy por encima del promedio estatal</div>
+                  </div>
+                  <div style="background:#F7F8F9;border-radius:8px;padding:12px;">
+                    <div class="sidebar-label">Outliers bajos (subvalorados)</div>
+                    <div id="outlier-bajo-count" style="font-family:var(--font-ui);font-size:20px;font-weight:700;color:var(--blue-p)">—</div>
+                    <div class="chart-subtitle">$/m² muy por debajo del promedio estatal</div>
+                  </div>
+                </div>
+              </div>
+              <div style="overflow-x:auto;">
+                <table style="width:100%">
+                  <thead><tr>
+                    <th>Estado</th><th>Municipio</th><th>Tipo</th><th>Clase</th>
+                    <th style="text-align:right">$/m²</th>
+                    <th style="text-align:right">Prom. Estado</th>
+                    <th style="text-align:right">Desviación</th>
+                    <th>Tipo outlier</th>
+                  </tr></thead>
+                  <tbody id="outliers-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- VALUADORAS -->
+          <div id="ins-valuadoras" style="display:none;">
+            <div class="chart-card" style="margin-bottom:16px;">
+              <div class="chart-title" style="margin-bottom:4px;">Actividad por Unidad Valuadora</div>
+              <div class="chart-subtitle" style="margin-bottom:16px;">Volumen y valor promedio por unidad valuadora — top 20</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                <div class="chart-wrap" style="height:280px"><canvas id="chart-val-volumen"></canvas></div>
+                <div class="chart-wrap" style="height:280px"><canvas id="chart-val-precio"></canvas></div>
+              </div>
+              <div style="overflow-x:auto;">
+                <table style="width:100%">
+                  <thead><tr>
+                    <th style="width:32px;text-align:center">#</th>
+                    <th>Unidad Valuadora</th>
+                    <th style="text-align:right">Avalúos</th>
+                    <th style="text-align:right">Valor Prom.</th>
+                    <th style="text-align:right">$/m² Prom.</th>
+                    <th style="text-align:right">Valor Mediana</th>
+                  </tr></thead>
+                  <tbody id="valuadoras-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- COMPARABLES -->
+          <div id="ins-comparables" style="display:none;">
+            <div class="chart-card">
+              <div class="chart-title" style="margin-bottom:4px;">Buscador de Propiedades Comparables</div>
+              <div class="chart-subtitle" style="margin-bottom:16px;">Encuentra propiedades similares por ubicación, tipo, clase, superficie y precio</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
+                <div>
+                  <div class="sidebar-label" style="margin-bottom:4px;">Estado</div>
+                  <select id="comp-estado" style="width:100%;padding:7px 10px;border:1px solid var(--depth-1);border-radius:6px;font-family:var(--font-ui);font-size:13px;">
+                    <option value="">Todos</option>
+                  </select>
+                </div>
+                <div>
+                  <div class="sidebar-label" style="margin-bottom:4px;">Tipo</div>
+                  <select id="comp-tipo" style="width:100%;padding:7px 10px;border:1px solid var(--depth-1);border-radius:6px;font-family:var(--font-ui);font-size:13px;">
+                    <option value="">Todos</option>
+                  </select>
+                </div>
+                <div>
+                  <div class="sidebar-label" style="margin-bottom:4px;">Clase</div>
+                  <select id="comp-clase" style="width:100%;padding:7px 10px;border:1px solid var(--depth-1);border-radius:6px;font-family:var(--font-ui);font-size:13px;">
+                    <option value="">Todas</option>
+                  </select>
+                </div>
+                <div>
+                  <div class="sidebar-label" style="margin-bottom:4px;">Sup. construida (m²)</div>
+                  <input type="number" id="comp-sup" placeholder="ej. 80" style="width:100%;padding:7px 10px;border:1px solid var(--depth-1);border-radius:6px;font-family:var(--font-ui);font-size:13px;">
+                </div>
+                <div>
+                  <div class="sidebar-label" style="margin-bottom:4px;">Valor máx. (MXN)</div>
+                  <input type="number" id="comp-valor" placeholder="ej. 1500000" style="width:100%;padding:7px 10px;border:1px solid var(--depth-1);border-radius:6px;font-family:var(--font-ui);font-size:13px;">
+                </div>
+                <div>
+                  <div class="sidebar-label" style="margin-bottom:4px;">Recámaras</div>
+                  <select id="comp-rec" style="width:100%;padding:7px 10px;border:1px solid var(--depth-1);border-radius:6px;font-family:var(--font-ui);font-size:13px;">
+                    <option value="">Cualquiera</option>
+                    <option value="1">1</option><option value="2">2</option>
+                    <option value="3">3</option><option value="4">4+</option>
+                  </select>
+                </div>
+              </div>
+              <button id="btn-buscar-comp" style="background:var(--blue-p);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-family:var(--font-sans);font-size:13px;font-weight:600;cursor:pointer;margin-bottom:16px;">
+                Buscar comparables
+              </button>
+              <div id="comp-result-count" style="font-size:12px;color:var(--depth-5);margin-bottom:10px;"></div>
+              <div style="overflow-x:auto;">
+                <table style="width:100%">
+                  <thead><tr>
+                    <th>Estado</th><th>Municipio</th><th>Colonia</th>
+                    <th>Tipo</th><th>Clase</th><th>Conservación</th>
+                    <th style="text-align:right">Sup.</th>
+                    <th style="text-align:right">Valor</th>
+                    <th style="text-align:right">$/m²</th>
+                    <th style="text-align:center">Rec.</th>
+                  </tr></thead>
+                  <tbody id="comparables-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONCENTRACIÓN -->
+          <div id="ins-concentracion" style="display:none;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div class="chart-card">
+                <div class="chart-title" style="margin-bottom:4px;">Concentración por Tipo de Inmueble</div>
+                <div class="chart-subtitle" style="margin-bottom:12px;">Por estado — top 10</div>
+                <div class="chart-wrap" style="height:280px"><canvas id="chart-conc-tipo"></canvas></div>
+              </div>
+              <div class="chart-card">
+                <div class="chart-title" style="margin-bottom:4px;">$/m² por Estado</div>
+                <div class="chart-subtitle" style="margin-bottom:12px;">Zonas con mayor y menor valor por metro cuadrado</div>
+                <div class="chart-wrap" style="height:280px"><canvas id="chart-conc-m2"></canvas></div>
+              </div>
+              <div class="chart-card" style="grid-column:1/-1;">
+                <div class="chart-title" style="margin-bottom:4px;">Indicadores de Mercado por Estado</div>
+                <div class="chart-subtitle" style="margin-bottom:12px;">Índice de accesibilidad (valor mediana / $/m² promedio) — mayor = más accesible</div>
+                <div style="overflow-x:auto;">
+                  <table style="width:100%">
+                    <thead><tr>
+                      <th>#</th><th>Estado</th>
+                      <th style="text-align:right">Avalúos</th>
+                      <th style="text-align:right">$/m² Prom.</th>
+                      <th style="text-align:right">Valor Mediana</th>
+                      <th style="text-align:right">Índice Accesibilidad</th>
+                      <th style="text-align:right">% Casa Habitación</th>
+                    </tr></thead>
+                    <tbody id="concentracion-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLE PANEL -->
+    <div class="tab-panel" id="tab-table">
+      <div id="panel-table">
+        <div class="table-toolbar">
+          <input type="text" id="table-search" placeholder="Buscar por colonia, estado, uso actual…"/>
+          <span class="table-count" id="table-count"></span>
+        </div>
+        <div class="table-wrap">
+          <table id="data-table">
+
+            <thead>
+              <tr>
+                <th data-col="estado">Estado</th>
+                <th data-col="tipo">Tipo</th>
+                <th data-col="clase">Clase</th>
+                <th data-col="conservacion">Conservación</th>
+                <th data-col="colonia">Colonia</th>
+                <th data-col="valor" style="text-align:right">Valor</th>
+                <th data-col="m2_sv" style="text-align:right">$/m²</th>
+                <th data-col="sup_construida" style="text-align:right">Sup. Const.</th>
+                <th data-col="recamaras" style="text-align:center">Rec.</th>
+                <th data-col="grupo">Grupo</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+        <div class="table-pagination">
+          <button class="page-btn" id="btn-first" title="Primera página">«</button>
+          <button class="page-btn" id="btn-prev">Anterior</button>
+          <span class="page-info" id="page-info">Página 1 de 1</span>
+          <button class="page-btn" id="btn-next">Siguiente</button>
+          <button class="page-btn" id="btn-last" title="Última página">»</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let allRecords = [];
+let filteredRecords = [];
+let globalStats = {};
+let map, markerLayer;
+let charts = {};
+let tableData = [];
+let sortCol = "valor";
+let sortDir = -1;
+let currentPage = 1;
+const PAGE_SIZE = 500;
+
+const API = "";  // mismo origen
+
+// ── Utils ──────────────────────────────────────────────────────────────────
+const fmt = n => n ? new Intl.NumberFormat("es-MX", {style:"currency", currency:"MXN", maximumFractionDigits:0}).format(n) : "—";
+const fmtK = n => n >= 1e6 ? `$${(n/1e6).toFixed(1)}M` : n >= 1e3 ? `$${(n/1e3).toFixed(0)}K` : fmt(n);
+const fmtNum = n => n ? new Intl.NumberFormat("es-MX").format(n) : "0";
+
+function setLoading(on) {
+  const bar = document.getElementById("loading-bar");
+  if (on) { bar.className = "active"; }
+  else { bar.className = "done"; setTimeout(() => bar.className = "", 500); }
+}
+
+// ── Bootstrap ──────────────────────────────────────────────────────────────
+async function init() {
+  setLoading(true);
+  initMap();
+
+  try {
+    const res = await fetch("/api/records?limit=5000");
+    const data = await res.json();
+    allRecords = data.records;
+    filteredRecords = [...allRecords];
+
+    const sRes = await fetch("/api/stats");
+    globalStats = await sRes.json();
+
+    populateFilters();
+    updateKPIs(data.stats);
+    renderMap(filteredRecords);
+    renderCharts(globalStats);
+    renderTable(filteredRecords);
+    renderRankings(filteredRecords);
+    initComparador();
+    const showingEl = document.getElementById("showing-count");
+    if (showingEl) showingEl.textContent = fmtNum(filteredRecords.length);  } catch(e) {
+    console.error(e);
+    alert("Error cargando datos. Verifica que el servidor esté corriendo y los datos procesados.");
+  }
+  setLoading(false);
+}
+
+// ── Filters ────────────────────────────────────────────────────────────────
+function populateFilters() {
+  // Población inicial con todos los valores disponibles
+  updateFilterOptions(allRecords);
+}
+
+function updateFilterOptions(baseRecords) {
+  // Para cada filtro, calcular qué valores existen en el subconjunto actual
+  // manteniendo el valor seleccionado si sigue siendo válido
+  const updateSelect = (id, key, records) => {
+    const sel = document.getElementById(id);
+    const current = sel.value;
+    const vals = [...new Set(records.map(r => r[key]).filter(Boolean))].sort();
+    sel.innerHTML = `<option value="">${sel.options[0]?.text.startsWith("Tod") || sel.options[0]?.text.startsWith("Cual") ? sel.options[0].text : "Todos"}</option>`;
+    // Restaurar el placeholder correcto
+    const placeholders = {
+      "f-estado": "Todos los estados",
+      "f-municipio": "Todos los municipios",
+      "f-tipo": "Todos los tipos",
+      "f-clase": "Todas las clases",
+      "f-conservacion": "Todos",
+      "f-grupo": "Todos los grupos"
+    };
+    sel.options[0].text = placeholders[id] || "Todos";
+    // Para municipios, ocultar los que no tienen nombre real
+    const filteredVals = id === "f-municipio"
+      ? vals.filter(v => !v.startsWith("Municipio "))
+      : vals;
+    filteredVals.forEach(v => {
+      const o = document.createElement("option");
+      o.value = v; o.textContent = v;
+      if (v === current) o.selected = true;
+      sel.appendChild(o);
+    });
+    // Si el valor anterior ya no existe en el nuevo set, limpiar
+    if (current && !filteredVals.includes(current)) sel.value = "";
+  };
+
+  const f = getFilters();
+
+  // Estado: sin filtro de estado aplicado, mostrar todos
+  const forEstado = allRecords.filter(r => {
+    if (f.tipo && r.tipo !== f.tipo) return false;
+    if (f.clase && r.clase !== f.clase) return false;
+    if (f.conservacion && r.conservacion !== f.conservacion) return false;
+    if (f.grupo && r.grupo !== f.grupo) return false;
+    return true;
+  });
+  updateSelect("f-estado", "estado", forEstado);
+
+  // Municipio: depende del estado seleccionado
+  const forMunicipio = allRecords.filter(r => {
+    if (f.estado && r.estado !== f.estado) return false;
+    if (f.tipo && r.tipo !== f.tipo) return false;
+    if (f.clase && r.clase !== f.clase) return false;
+    if (f.conservacion && r.conservacion !== f.conservacion) return false;
+    if (f.grupo && r.grupo !== f.grupo) return false;
+    return true;
+  });
+  updateSelect("f-municipio", "municipio", forMunicipio);
+
+  // Tipo
+  const forTipo = allRecords.filter(r => {
+    if (f.estado && r.estado !== f.estado) return false;
+    if (f.clase && r.clase !== f.clase) return false;
+    if (f.conservacion && r.conservacion !== f.conservacion) return false;
+    if (f.grupo && r.grupo !== f.grupo) return false;
+    return true;
+  });
+  updateSelect("f-tipo", "tipo", forTipo);
+
+  // Clase
+  const forClase = allRecords.filter(r => {
+    if (f.estado && r.estado !== f.estado) return false;
+    if (f.tipo && r.tipo !== f.tipo) return false;
+    if (f.conservacion && r.conservacion !== f.conservacion) return false;
+    if (f.grupo && r.grupo !== f.grupo) return false;
+    return true;
+  });
+  updateSelect("f-clase", "clase", forClase);
+
+  // Conservación
+  const forCons = allRecords.filter(r => {
+    if (f.estado && r.estado !== f.estado) return false;
+    if (f.tipo && r.tipo !== f.tipo) return false;
+    if (f.clase && r.clase !== f.clase) return false;
+    if (f.grupo && r.grupo !== f.grupo) return false;
+    return true;
+  });
+  updateSelect("f-conservacion", "conservacion", forCons);
+
+  // Grupo
+  const forGrupo = allRecords.filter(r => {
+    if (f.estado && r.estado !== f.estado) return false;
+    if (f.tipo && r.tipo !== f.tipo) return false;
+    if (f.clase && r.clase !== f.clase) return false;
+    if (f.conservacion && r.conservacion !== f.conservacion) return false;
+    return true;
+  });
+  updateSelect("f-grupo", "grupo", forGrupo);
+}
+
+function getFilters() {
+  return {
+    estado: document.getElementById("f-estado").value,
+    municipio: document.getElementById("f-municipio").value,
+    tipo: document.getElementById("f-tipo").value,
+    clase: document.getElementById("f-clase").value,
+    conservacion: document.getElementById("f-conservacion").value,
+    grupo: document.getElementById("f-grupo").value,
+    valorMax: parseFloat(document.getElementById("f-valor-max").value),
+    recamarasMin: parseInt(document.getElementById("f-recamaras").value) || 0,
+  };
+}
+
+function applyFilters() {
+  const f = getFilters();
+  filteredRecords = allRecords.filter(r => {
+    if (f.estado && r.estado !== f.estado) return false;
+    if (f.municipio && r.municipio !== f.municipio) return false;
+    if (f.tipo && r.tipo !== f.tipo) return false;
+    if (f.clase && r.clase !== f.clase) return false;
+    if (f.conservacion && r.conservacion !== f.conservacion) return false;
+    if (f.grupo && r.grupo !== f.grupo) return false;
+    if (r.valor > f.valorMax) return false;
+    if (f.recamarasMin && r.recamaras < f.recamarasMin) return false;
+    return true;
+  });
+
+  // Calcular stats del subconjunto
+  const vals = filteredRecords.map(r => r.valor).filter(Boolean);
+  const m2s = filteredRecords.map(r => r.m2_sv).filter(Boolean);
+  const subStats = {
+    total: filteredRecords.length,
+    valor_promedio: vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0,
+    valor_mediana: vals.length ? [...vals].sort((a,b)=>a-b)[Math.floor(vals.length/2)] : 0,
+    m2_promedio: m2s.length ? m2s.reduce((a,b)=>a+b,0)/m2s.length : 0,
+  };
+
+  updateKPIs(subStats);
+  renderMap(filteredRecords);
+  renderTable(filteredRecords);
+  renderChartsFromRecords(filteredRecords);
+  renderRankings(filteredRecords);
+  document.getElementById("showing-count").textContent = fmtNum(filteredRecords.length);
+}
+
+function resetFilters() {
+  ["f-estado","f-municipio","f-tipo","f-clase","f-conservacion","f-grupo","f-recamaras"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+  document.getElementById("f-valor-max").value = 10000000;
+  document.getElementById("f-valor-max-label").textContent = "$10M";
+  filteredRecords = [...allRecords];
+  updateKPIs({
+    total: globalStats.total,
+    valor_promedio: globalStats.valor_promedio,
+    valor_mediana: globalStats.valor_mediana,
+    m2_promedio: globalStats.m2_promedio,
+  });
+  renderMap(filteredRecords);
+  renderTable(filteredRecords);
+  renderCharts(globalStats);
+  document.getElementById("showing-count").textContent = fmtNum(filteredRecords.length);
+}
+
+// ── KPIs ───────────────────────────────────────────────────────────────────
+function updateKPIs(s) {
+  document.getElementById("kpi-total").textContent = fmtNum(s.total);
+  document.getElementById("kpi-valor").textContent = fmtK(s.valor_promedio);
+  document.getElementById("kpi-mediana").textContent = fmtK(s.valor_mediana);
+  document.getElementById("kpi-m2").textContent = fmtK(s.m2_promedio);
+}
+
+// ── Map ────────────────────────────────────────────────────────────────────
+function initMap() {
+  map = L.map("map", { zoomControl: true }).setView([23.5, -102], 5);
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+    attribution: "© OpenStreetMap © CartoDB",
+    maxZoom: 19
+  }).addTo(map);
+  markerLayer = L.layerGroup().addTo(map);
+
+  // Leyenda
+  const legend = L.control({ position: "bottomright" });
+  legend.onAdd = () => {
+    const div = L.DomUtil.create("div", "map-legend");
+    div.innerHTML = `
+      <h4>Valor concluido</h4>
+      <div class="legend-item"><div class="legend-dot" style="background:#0875E3"></div> < $1M</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#52BCF5"></div> $1M – $2M</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#C0CA33"></div> $2M – $5M</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#FE2B7C"></div> > $5M</div>
+    `;
+    return div;
+  };
+  legend.addTo(map);
+}
+
+function valorColor(v) {
+  if (v < 1e6) return "#0875E3";
+  if (v < 2e6) return "#52BCF5";
+  if (v < 5e6) return "#C0CA33";
+  return "#FE2B7C";
+}
+
+function renderMap(records) {
+  markerLayer.clearLayers();
+  // Solo samplear si hay más de 3000, nunca truncar conjuntos pequeños
+  const sample = records.length > 3000
+    ? records.filter((_, i) => i % Math.ceil(records.length / 3000) === 0)
+    : [...records];
+
+  sample.forEach(r => {
+    if (!r.lat || !r.lng) return;
+    const marker = L.circleMarker([r.lat, r.lng], {
+      radius: 5,
+      fillColor: valorColor(r.valor),
+      color: "rgba(255,255,255,0.6)",
+      weight: 1,
+      fillOpacity: 0.75
+    });
+
+    const popup = `
+      <div class="popup-inner">
+        <div class="popup-tipo">${r.tipo || "—"} · ${r.clase || "—"}</div>
+        <div class="popup-valor">${fmt(r.valor)}</div>
+        <div class="popup-m2">${fmtNum(Math.round(r.m2_sv))} MXN/m²</div>
+        <div class="popup-grid">
+          <span>Estado</span><strong>${r.estado || "—"}</strong>
+          <span>Municipio</span><strong>${r.municipio || "—"}</strong>
+          <span>Colonia</span><strong>${r.colonia || "—"}</strong>
+          <span>Conservación</span><strong>${r.conservacion || "—"}</strong>
+          <span>Sup. const.</span><strong>${r.sup_construida || "—"} m²</strong>
+          <span>Recámaras</span><strong>${r.recamaras || "—"}</strong>
+          <span>Banco</span><strong>${r.banco || r.grupo || "—"}</strong>
+        </div>
+      </div>`;
+    marker.bindPopup(popup, { maxWidth: 260 });
+    markerLayer.addLayer(marker);
+  });
+}
+
+// ── Charts ─────────────────────────────────────────────────────────────────
+const COLORS = ["#0875E3","#52BCF5","#FE2B7C","#FF9E9E","#C0CA33","#0CA036","#FF6F61","#8AA0CA","#493628","#8ACAC4"];
+
+function destroyChart(id) {
+  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+}
+
+function makeDoughnut(id, labels, data) {
+  destroyChart(id);
+  const ctx = document.getElementById(id).getContext("2d");
+  charts[id] = new Chart(ctx, {
+    type: "doughnut",
+    data: { labels, datasets: [{ data, backgroundColor: COLORS, borderWidth: 2, borderColor: "#fff" }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "right", labels: { font: { family: "Inter", size: 11 }, boxWidth: 12, padding: 10 } },
+        tooltip: { callbacks: { label: c => ` ${c.label}: ${fmtNum(c.raw)} (${((c.raw/c.dataset.data.reduce((a,b)=>a+b,0))*100).toFixed(1)}%)` } }
+      }
+    }
+  });
+}
+
+function makeBar(id, labels, data, horizontal=false, color="#0875E3", clickable=false) {
+  destroyChart(id);
+  const ctx = document.getElementById(id).getContext("2d");
+  const isEstadoChart = clickable;
+
+  charts[id] = new Chart(ctx, {
+    type: "bar",
+    data: { labels, datasets: [{ data, backgroundColor: color, borderRadius: 4, borderSkipped: false }] },
+    options: {
+      indexAxis: horizontal ? "y" : "x",
+      responsive: true, maintainAspectRatio: false,
+      cursor: isEstadoChart ? "pointer" : "default",
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: isEstadoChart ? {
+            footer: () => "Click para filtrar por este estado"
+          } : {}
+        }
+      },
+      scales: {
+        x: { ticks: { font: { family: "Inter", size: 10 }, color: "#8D9398" }, grid: { color: "#F0F0F0" } },
+        y: { ticks: { font: { family: "Inter", size: 10 }, color: "#8D9398" }, grid: { color: "#F0F0F0" } }
+      },
+      onClick: isEstadoChart ? (evt, elements) => {
+        if (!elements.length) return;
+        const idx = elements[0].index;
+        const estadoClicked = labels[idx];
+        filterByEstado(estadoClicked);
+      } : undefined
+    }
+  });
+
+  // Cursor pointer en canvas clickeable
+  if (isEstadoChart) ctx.canvas.style.cursor = "pointer";
+}
+
+function filterByEstado(estado) {
+  // Setear el dropdown
+  const sel = document.getElementById("f-estado");
+  sel.value = estado;
+
+  // Aplicar filtro
+  applyFilters();
+
+  // Cambiar al tab de mapa para que sea obvio el efecto
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+  document.querySelector('.tab-btn[data-tab="map"]').classList.add("active");
+  document.getElementById("tab-map").classList.add("active");
+  map.invalidateSize();
+
+  // Toast de confirmación
+  showToast(`Filtrando: ${estado}`);
+}
+
+function showToast(msg) {
+  let toast = document.getElementById("toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "toast";
+    toast.style.cssText = `
+      position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+      background:var(--depth-9); color:#fff; padding:10px 20px;
+      border-radius:8px; font-family:var(--font-ui); font-size:13px;
+      font-weight:500; z-index:9999; box-shadow:0 4px 16px rgba(0,0,0,0.2);
+      transition: opacity 0.3s;
+    `;
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = "1";
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.style.opacity = "0", 2500);
+}
+
+function countBy(records, key) {
+  const counts = {};
+  records.forEach(r => { const v = r[key] || "N/A"; counts[v] = (counts[v]||0) + 1; });
+  return Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+}
+
+function avgBy(records, groupKey, valKey, top=15) {
+  const sums = {}, counts = {};
+  records.forEach(r => {
+    const k = r[groupKey] || "N/A";
+    sums[k] = (sums[k]||0) + (r[valKey]||0);
+    counts[k] = (counts[k]||0) + 1;
+  });
+  return Object.entries(sums)
+    .map(([k, s]) => [k, s/counts[k]])
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0, top);
+}
+
+function renderCharts(stats) {
+  const tipoPairs = Object.entries(stats.por_tipo || {}).sort((a,b)=>b[1]-a[1]);
+  makeDoughnut("chart-tipo", tipoPairs.map(x=>x[0]), tipoPairs.map(x=>x[1]));
+
+  const clasePairs = Object.entries(stats.por_clase || {}).sort((a,b)=>b[1]-a[1]);
+  makeDoughnut("chart-clase", clasePairs.map(x=>x[0]), clasePairs.map(x=>x[1]));
+
+  const consPairs = Object.entries(stats.por_conservacion || {}).sort((a,b)=>b[1]-a[1]);
+  makeDoughnut("chart-cons", consPairs.map(x=>x[0]), consPairs.map(x=>x[1]));
+
+  const grupoPairs = Object.entries(stats.por_grupo || {}).sort((a,b)=>b[1]-a[1]);
+  makeDoughnut("chart-grupo", grupoPairs.map(x=>x[0]), grupoPairs.map(x=>x[1]));
+
+  const estadoPairs = Object.entries(stats.por_estado || {}).sort((a,b)=>b[1]-a[1]).slice(0,20);
+  makeBar("chart-estados", estadoPairs.map(x=>x[0]), estadoPairs.map(x=>x[1]), true, "#0875E3", true);
+}
+
+function renderChartsFromRecords(records) {
+  const tipoPairs = countBy(records, "tipo").slice(0,8);
+  makeDoughnut("chart-tipo", tipoPairs.map(x=>x[0]), tipoPairs.map(x=>x[1]));
+
+  const clasePairs = countBy(records, "clase").slice(0,8);
+  makeDoughnut("chart-clase", clasePairs.map(x=>x[0]), clasePairs.map(x=>x[1]));
+
+  const consPairs = countBy(records, "conservacion").slice(0,8);
+  makeDoughnut("chart-cons", consPairs.map(x=>x[0]), consPairs.map(x=>x[1]));
+
+  const grupoPairs = countBy(records, "grupo").slice(0,8);
+  makeDoughnut("chart-grupo", grupoPairs.map(x=>x[0]), grupoPairs.map(x=>x[1]));
+
+  const estadoPairs = countBy(records, "estado").slice(0,20);
+  makeBar("chart-estados", estadoPairs.map(x=>x[0]), estadoPairs.map(x=>x[1]), true, "#0875E3", true);
+
+  const valorEstPairs = avgBy(records, "estado", "valor", 15);
+  makeBar("chart-valor-estado", valorEstPairs.map(x=>x[0]), valorEstPairs.map(x=>Math.round(x[1])), true, "#FE2B7C");
+}
+
+// ── Table ──────────────────────────────────────────────────────────────────
+function conservacionBadge(c) {
+  const map = { "Nuevo": "badge-cons-6", "Recientemente Remodelado": "badge-cons-7", "Muy Bueno": "badge-cons-5", "Bueno": "badge-cons-4" };
+  return `<span class="badge ${map[c]||'badge-cons-default'}">${c||"—"}</span>`;
+}
+
+function renderTable(records) {
+  tableData = [...records];
+  currentPage = 1;
+  sortTable();
+}
+
+function sortTable() {
+  tableData.sort((a, b) => {
+    const av = a[sortCol] ?? "", bv = b[sortCol] ?? "";
+    if (typeof av === "number") return sortDir * (bv - av);
+    return sortDir * String(av).localeCompare(String(bv));
+  });
+  drawTable(tableData);
+}
+
+let searchTerm = "";
+let filteredTableData = [];
+
+function drawTable(data) {
+  const term = searchTerm.toLowerCase();
+  filteredTableData = term
+    ? data.filter(r => [r.colonia, r.estado, r.uso_actual, r.tipo, r.clase].some(v => String(v||"").toLowerCase().includes(term)))
+    : data;
+
+  const total = filteredTableData.length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  if (currentPage > totalPages) currentPage = 1;
+
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+  const rows = filteredTableData.slice(start, end);
+
+  document.getElementById("table-count").textContent = `${fmtNum(total)} registros`;
+  document.getElementById("page-info").textContent = `Página ${currentPage} de ${totalPages}`;
+  document.getElementById("btn-prev").disabled = currentPage === 1;
+  document.getElementById("btn-first").disabled = currentPage === 1;
+  document.getElementById("btn-next").disabled = currentPage === totalPages;
+  document.getElementById("btn-last").disabled = currentPage === totalPages;
+
+  const tbody = document.getElementById("table-body");
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td>${r.estado||"—"}</td>
+      <td><span class="badge badge-tipo">${r.tipo||"—"}</span></td>
+      <td><span class="badge badge-clase">${r.clase||"—"}</span></td>
+      <td>${conservacionBadge(r.conservacion)}</td>
+      <td>${r.colonia||"—"}</td>
+      <td style="text-align:right;font-family:var(--font-ui);font-weight:600">${fmt(r.valor)}</td>
+      <td style="text-align:right;font-family:var(--font-ui)">${fmtNum(Math.round(r.m2_sv))}</td>
+      <td style="text-align:right;font-family:var(--font-ui)">${r.sup_construida||"—"} m²</td>
+      <td style="text-align:center">${r.recamaras||"—"}</td>
+      <td>${r.grupo||"—"}</td>
+    </tr>`).join("");
+}
+
+// ── Event listeners ────────────────────────────────────────────────────────
+document.getElementById("btn-apply").addEventListener("click", applyFilters);
+document.getElementById("btn-reset").addEventListener("click", resetFilters);
+
+// Cascada: al cambiar cualquier select, actualizar opciones de los demás
+["f-estado","f-municipio","f-tipo","f-clase","f-conservacion","f-grupo"].forEach(id => {
+  document.getElementById(id).addEventListener("change", () => updateFilterOptions(allRecords));
+});
+
+document.getElementById("f-valor-max").addEventListener("input", function() {
+  const v = parseFloat(this.value);
+  document.getElementById("f-valor-max-label").textContent = fmtK(v);
+});
+
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", function() {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    this.classList.add("active");
+    document.getElementById("tab-" + this.dataset.tab).classList.add("active");
+    if (this.dataset.tab === "map") map.invalidateSize();
+    if (this.dataset.tab === "charts" && filteredRecords.length) {
+      setTimeout(() => renderChartsFromRecords(filteredRecords), 50);
+    }
+    if (this.dataset.tab === "rankings") setTimeout(() => renderRankings(filteredRecords), 50);
+    if (this.dataset.tab === "comparador") renderComparador();
+    if (this.dataset.tab === "insights") setTimeout(() => renderInsights(filteredRecords), 50);
+  });
+});
+
+document.querySelectorAll("thead th[data-col]").forEach(th => {
+  th.addEventListener("click", function() {
+    const col = this.dataset.col;
+    if (sortCol === col) sortDir *= -1;
+    else { sortCol = col; sortDir = -1; }
+    sortTable();
+  });
+});
+
+document.getElementById("table-search").addEventListener("input", function() {
+  searchTerm = this.value;
+  currentPage = 1;
+  drawTable(tableData);
+});
+
+document.getElementById("btn-prev").addEventListener("click", () => { currentPage--; drawTable(tableData); });
+document.getElementById("btn-next").addEventListener("click", () => { currentPage++; drawTable(tableData); });
+document.getElementById("btn-first").addEventListener("click", () => { currentPage = 1; drawTable(tableData); });
+document.getElementById("btn-last").addEventListener("click", () => {
+  currentPage = Math.ceil(filteredTableData.length / PAGE_SIZE);
+  drawTable(tableData);
+});
+
+// ── Rankings ───────────────────────────────────────────────────────────────
+let rankSortCol = "count";
+let rankSortDir = -1;
+let rankMunSortCol = "count";
+let rankMunSortDir = -1;
+let currentRankMetric = "count";
+
+function buildEstadoStats(records) {
+  const agg = {};
+  records.forEach(r => {
+    const k = r.estado || "Desconocido";
+    if (!agg[k]) agg[k] = { estado: k, count: 0, valorSum: 0, m2Sum: 0, supSum: 0, valores: [] };
+    agg[k].count++;
+    agg[k].valorSum += r.valor || 0;
+    agg[k].m2Sum += r.m2_sv || 0;
+    agg[k].supSum += r.sup_construida || 0;
+    agg[k].valores.push(r.valor || 0);
+  });
+  return Object.values(agg).map(s => ({
+    estado: s.estado,
+    count: s.count,
+    valor: Math.round(s.valorSum / s.count),
+    mediana: Math.round([...s.valores].sort((a,b)=>a-b)[Math.floor(s.valores.length/2)]),
+    m2: Math.round(s.m2Sum / s.count),
+    sup: Math.round(s.supSum / s.count),
+  }));
+}
+
+function buildMunicipioStats(records) {
+  const agg = {};
+  records.forEach(r => {
+    const mun = r.municipio;
+    if (!mun || mun.startsWith("Municipio ")) return;
+    const k = `${mun}||${r.estado}`;
+    if (!agg[k]) agg[k] = { municipio: mun, estado: r.estado, count: 0, valorSum: 0, m2Sum: 0 };
+    agg[k].count++;
+    agg[k].valorSum += r.valor || 0;
+    agg[k].m2Sum += r.m2_sv || 0;
+  });
+  return Object.values(agg).map(s => ({
+    municipio: s.municipio, estado: s.estado, count: s.count,
+    valor: Math.round(s.valorSum / s.count),
+    m2: Math.round(s.m2Sum / s.count),
+  }));
+}
+
+function setRankMetric(metric) {
+  currentRankMetric = metric;
+  ["count","valor","m2"].forEach(m => {
+    document.getElementById(`rank-metric-${m}`).classList.toggle("active", m === metric);
+  });
+  const colMap = { count: "count", valor: "valor", m2: "m2" };
+  rankSortCol = colMap[metric];
+  renderRankings(filteredRecords);
+}
+
+function renderRankings(records) {
+  const estadoStats = buildEstadoStats(records);
+  estadoStats.sort((a,b) => rankSortDir * (b[rankSortCol] - a[rankSortCol]));
+  const maxVal = Math.max(...estadoStats.map(s => s[currentRankMetric] || 0));
+
+  const tbody = document.getElementById("rank-estados-body");
+  tbody.innerHTML = estadoStats.map((s, i) => {
+    const barPct = maxVal ? Math.round((s[currentRankMetric] / maxVal) * 100) : 0;
+    return `<tr onclick="filterByEstado('${s.estado}')">
+      <td style="text-align:center;color:var(--depth-5);font-weight:600">${i+1}</td>
+      <td style="font-weight:500">${s.estado}</td>
+      <td style="text-align:right">${fmtNum(s.count)}</td>
+      <td style="text-align:right">${fmtK(s.valor)}</td>
+      <td style="text-align:right">${fmtK(s.mediana)}</td>
+      <td style="text-align:right">${fmtK(s.m2)}</td>
+      <td style="text-align:right">${s.sup} m²</td>
+      <td><div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:${barPct}%"></div></div></td>
+    </tr>`;
+  }).join("");
+
+  // Municipios
+  const munStats = buildMunicipioStats(records);
+  munStats.sort((a,b) => rankMunSortDir * (b[rankMunSortCol] - a[rankMunSortCol]));
+  const top20 = munStats.slice(0, 20);
+
+  document.getElementById("rank-mun-subtitle").textContent =
+    `— top 20 de ${fmtNum(munStats.length)} municipios identificados`;
+
+  const tbodyMun = document.getElementById("rank-municipios-body");
+  tbodyMun.innerHTML = top20.map((s, i) => `
+    <tr>
+      <td style="text-align:center;color:var(--depth-5);font-weight:600">${i+1}</td>
+      <td style="font-weight:500">${s.municipio}</td>
+      <td style="color:var(--depth-5)">${s.estado}</td>
+      <td style="text-align:right">${fmtNum(s.count)}</td>
+      <td style="text-align:right">${fmtK(s.valor)}</td>
+      <td style="text-align:right">${fmtK(s.m2)}</td>
+    </tr>`).join("");
+}
+
+// ── Comparador ─────────────────────────────────────────────────────────────
+function initComparador() {
+  const estados = [...new Set(allRecords.map(r => r.estado).filter(Boolean))].sort();
+  ["comp-zona-a", "comp-zona-b"].forEach(id => {
+    const sel = document.getElementById(id);
+    estados.forEach(e => {
+      const o = document.createElement("option");
+      o.value = e; o.textContent = e;
+      sel.appendChild(o);
+    });
+    sel.addEventListener("change", renderComparador);
+  });
+}
+
+function renderComparador() {
+  const zonaA = document.getElementById("comp-zona-a").value;
+  const zonaB = document.getElementById("comp-zona-b").value;
+
+  if (!zonaA || !zonaB || zonaA === zonaB) {
+    document.getElementById("comp-result").style.display = "none";
+    document.getElementById("comp-empty").style.display = "block";
+    return;
+  }
+
+  document.getElementById("comp-result").style.display = "block";
+  document.getElementById("comp-empty").style.display = "none";
+
+  const recA = allRecords.filter(r => r.estado === zonaA);
+  const recB = allRecords.filter(r => r.estado === zonaB);
+
+  const statsA = calcZoneStats(recA);
+  const statsB = calcZoneStats(recB);
+
+  // KPIs
+  const kpis = [
+    { label: "Total Avalúos", keyA: "count", keyB: "count", fmt: fmtNum, higherBetter: true },
+    { label: "Valor Promedio", keyA: "valor", keyB: "valor", fmt: fmtK, higherBetter: true },
+    { label: "Valor Mediana", keyA: "mediana", keyB: "mediana", fmt: fmtK, higherBetter: true },
+    { label: "$/m² Promedio", keyA: "m2", keyB: "m2", fmt: fmtK, higherBetter: true },
+    { label: "Sup. Construida Prom.", keyA: "sup", keyB: "sup", fmt: v => `${v} m²`, higherBetter: true },
+    { label: "% Inmuebles Nuevos", keyA: "pctNuevo", keyB: "pctNuevo", fmt: v => `${v}%`, higherBetter: true },
+  ];
+
+  document.getElementById("comp-kpis").innerHTML = kpis.map(k => {
+    const vA = statsA[k.keyA], vB = statsB[k.keyB];
+    const winnerA = k.higherBetter ? vA > vB : vA < vB;
+    const winnerB = k.higherBetter ? vB > vA : vB < vA;
+    return `<div class="comp-kpi-card">
+      <div class="comp-kpi-label">${k.label}</div>
+      <div class="comp-kpi-row">
+        <div class="comp-kpi-zone">
+          <div class="comp-kpi-zone-label" style="color:var(--blue-p)">${zonaA}</div>
+          <div class="comp-kpi-zone-val zona-a">${k.fmt(vA)}</div>
+          ${winnerA ? '<span class="comp-winner zona-a">✓ Mayor</span>' : ''}
+        </div>
+        <div class="comp-kpi-zone">
+          <div class="comp-kpi-zone-label" style="color:var(--pink-p)">${zonaB}</div>
+          <div class="comp-kpi-zone-val zona-b">${k.fmt(vB)}</div>
+          ${winnerB ? '<span class="comp-winner zona-b">✓ Mayor</span>' : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+
+  // Gráficas
+  renderCompChart("comp-chart-tipo", "tipo", recA, recB, zonaA, zonaB);
+  renderCompChart("comp-chart-clase", "clase", recA, recB, zonaA, zonaB);
+  renderCompChart("comp-chart-cons", "conservacion", recA, recB, zonaA, zonaB);
+  renderCompChartColonias(recA, recB, zonaA, zonaB);
+}
+
+function calcZoneStats(records) {
+  if (!records.length) return { count:0, valor:0, mediana:0, m2:0, sup:0, pctNuevo:0 };
+  const valores = records.map(r => r.valor).filter(Boolean);
+  const nuevo = records.filter(r => r.conservacion === "Nuevo").length;
+  return {
+    count: records.length,
+    valor: Math.round(valores.reduce((a,b)=>a+b,0) / valores.length),
+    mediana: Math.round([...valores].sort((a,b)=>a-b)[Math.floor(valores.length/2)]),
+    m2: Math.round(records.reduce((a,r)=>a+(r.m2_sv||0),0) / records.length),
+    sup: Math.round(records.reduce((a,r)=>a+(r.sup_construida||0),0) / records.length),
+    pctNuevo: Math.round((nuevo / records.length) * 100),
+  };
+}
+
+function renderCompChart(canvasId, field, recA, recB, labelA, labelB) {
+  destroyChart(canvasId);
+  const keysA = {}, keysB = {};
+  recA.forEach(r => { const v = r[field]||"N/A"; keysA[v]=(keysA[v]||0)+1; });
+  recB.forEach(r => { const v = r[field]||"N/A"; keysB[v]=(keysB[v]||0)+1; });
+  const labels = [...new Set([...Object.keys(keysA),...Object.keys(keysB)])].slice(0,6);
+  const ctx = document.getElementById(canvasId).getContext("2d");
+  charts[canvasId] = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        { label: labelA, data: labels.map(l => keysA[l]||0), backgroundColor: "#0875E3", borderRadius: 3 },
+        { label: labelB, data: labels.map(l => keysB[l]||0), backgroundColor: "#FE2B7C", borderRadius: 3 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { font: { family: "Inter", size: 11 }, boxWidth: 12 } } },
+      scales: {
+        x: { ticks: { font: { family: "Inter", size: 9 }, color: "#8D9398" } },
+        y: { ticks: { font: { family: "Inter", size: 10 }, color: "#8D9398" } }
+      }
+    }
+  });
+}
+
+// ── Go ─────────────────────────────────────────────────────────────────────
+init();
+
+function renderCompChartColonias(recA, recB, labelA, labelB) {
+  const topColonias = (recs, n=6) => {
+    const cnt = {};
+    recs.forEach(r => { const c = r.colonia||"N/A"; cnt[c]=(cnt[c]||0)+1; });
+    return Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,n);
+  };
+  const topA = topColonias(recA), topB = topColonias(recB);
+  const labels = [...new Set([...topA.map(x=>x[0]),...topB.map(x=>x[0])])].slice(0,8);
+  const mapA = Object.fromEntries(topA), mapB = Object.fromEntries(topB);
+  destroyChart("comp-chart-colonias");
+  const ctx = document.getElementById("comp-chart-colonias").getContext("2d");
+  charts["comp-chart-colonias"] = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        { label: labelA, data: labels.map(l => mapA[l]||0), backgroundColor: "#0875E3", borderRadius: 3 },
+        { label: labelB, data: labels.map(l => mapB[l]||0), backgroundColor: "#FE2B7C", borderRadius: 3 },
+      ]
+    },
+    options: {
+      indexAxis: "y", responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { font: { family: "Inter", size: 11 }, boxWidth: 12 } } },
+      scales: {
+        x: { ticks: { font: { family: "Inter", size: 10 }, color: "#8D9398" } },
+        y: { ticks: { font: { family: "Inter", size: 9 }, color: "#8D9398" } }
+      }
+    }
+  });
+}
+
+// ── Insights ───────────────────────────────────────────────────────────────
+let insightsInitialized = false;
+
+function showInsightTab(tab) {
+  ["outliers","valuadoras","comparables","concentracion"].forEach(t => {
+    document.getElementById(`ins-${t}`).style.display = t === tab ? "block" : "none";
+    document.getElementById(`ins-tab-${t}`).classList.toggle("active", t === tab);
+  });
+}
+
+function renderInsights(records) {
+  renderOutliers(records);
+  renderValuadoras(records);
+  initComparablesBuscador();
+  renderConcentracion(records);
+  insightsInitialized = true;
+}
+
+// ── Outliers ──────────────────────────────────────────────────────────────
+function renderOutliers(records) {
+  // Calcular media y stddev por estado
+  const byEstado = {};
+  records.forEach(r => {
+    if (!r.m2_sv || !r.estado) return;
+    if (!byEstado[r.estado]) byEstado[r.estado] = [];
+    byEstado[r.estado].push(r.m2_sv);
+  });
+
+  const stats = {};
+  Object.entries(byEstado).forEach(([est, vals]) => {
+    const mean = vals.reduce((a,b)=>a+b,0) / vals.length;
+    const std = Math.sqrt(vals.reduce((a,b)=>a+(b-mean)**2,0) / vals.length);
+    stats[est] = { mean, std };
+  });
+
+  const outliers = records.filter(r => {
+    if (!r.m2_sv || !r.estado || !stats[r.estado]) return false;
+    const { mean, std } = stats[r.estado];
+    return Math.abs(r.m2_sv - mean) > 2 * std;
+  }).map(r => ({
+    ...r,
+    mean_estado: stats[r.estado].mean,
+    desviacion: ((r.m2_sv - stats[r.estado].mean) / stats[r.estado].std).toFixed(1),
+    tipo_outlier: r.m2_sv > stats[r.estado].mean ? "Alto" : "Bajo"
+  })).sort((a,b) => Math.abs(b.desviacion) - Math.abs(a.desviacion));
+
+  const altos = outliers.filter(o => o.tipo_outlier === "Alto").length;
+  const bajos = outliers.filter(o => o.tipo_outlier === "Bajo").length;
+
+  document.getElementById("outlier-badge").textContent = `${fmtNum(outliers.length)} outliers detectados`;
+  document.getElementById("outlier-alto-count").textContent = fmtNum(altos);
+  document.getElementById("outlier-bajo-count").textContent = fmtNum(bajos);
+
+  // Gráfica outliers por estado
+  const byEst = {};
+  outliers.forEach(o => { byEst[o.estado] = (byEst[o.estado]||0) + 1; });
+  const topEst = Object.entries(byEst).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  destroyChart("chart-outliers-estado");
+  const ctx = document.getElementById("chart-outliers-estado").getContext("2d");
+  charts["chart-outliers-estado"] = new Chart(ctx, {
+    type: "bar",
+    data: { labels: topEst.map(x=>x[0]), datasets: [{ data: topEst.map(x=>x[1]), backgroundColor: "#FE2B7C", borderRadius: 4 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+      scales: { x: { ticks: { font: { family:"Inter", size:9 }, color:"#8D9398" } }, y: { ticks: { font: { family:"Inter", size:10 }, color:"#8D9398" } } } }
+  });
+
+  // Tabla top 50 outliers
+  const tbody = document.getElementById("outliers-body");
+  tbody.innerHTML = outliers.slice(0,50).map(o => `
+    <tr>
+      <td>${o.estado||"—"}</td>
+      <td>${o.municipio||"—"}</td>
+      <td><span class="badge badge-tipo">${o.tipo||"—"}</span></td>
+      <td><span class="badge badge-clase">${o.clase||"—"}</span></td>
+      <td style="text-align:right;font-weight:600">${fmtNum(Math.round(o.m2_sv))}</td>
+      <td style="text-align:right;color:var(--depth-5)">${fmtNum(Math.round(o.mean_estado))}</td>
+      <td style="text-align:right;font-weight:600;color:${o.tipo_outlier==='Alto'?'var(--pink-p)':'var(--blue-p)'}">${o.desviacion}σ</td>
+      <td><span class="badge" style="background:${o.tipo_outlier==='Alto'?'#FFF0F5':'#EEF4FF'};color:${o.tipo_outlier==='Alto'?'var(--pink-p)':'var(--blue-p)'}">${o.tipo_outlier}</span></td>
+    </tr>`).join("");
+}
+
+// ── Valuadoras ────────────────────────────────────────────────────────────
+function renderValuadoras(records) {
+  const agg = {};
+  records.forEach(r => {
+    const v = r.unidad_valuacion || "No especificada";
+    if (!agg[v]) agg[v] = { count:0, valorSum:0, m2Sum:0, valores:[] };
+    agg[v].count++;
+    agg[v].valorSum += r.valor || 0;
+    agg[v].m2Sum += r.m2_sv || 0;
+    agg[v].valores.push(r.valor || 0);
+  });
+
+  const stats = Object.entries(agg).map(([nombre, s]) => ({
+    nombre,
+    count: s.count,
+    valor: Math.round(s.valorSum / s.count),
+    m2: Math.round(s.m2Sum / s.count),
+    mediana: Math.round([...s.valores].sort((a,b)=>a-b)[Math.floor(s.valores.length/2)]),
+  })).sort((a,b) => b.count - a.count).slice(0,20);
+
+  // Gráfica volumen
+  destroyChart("chart-val-volumen");
+  const ctx1 = document.getElementById("chart-val-volumen").getContext("2d");
+  const nombresCortos = stats.map(s => s.nombre.length > 25 ? s.nombre.slice(0,25)+"…" : s.nombre);
+  charts["chart-val-volumen"] = new Chart(ctx1, {
+    type: "bar",
+    data: { labels: nombresCortos, datasets: [{ label:"Avalúos", data: stats.map(s=>s.count), backgroundColor:"#0875E3", borderRadius:3 }] },
+    options: { indexAxis:"y", responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+      scales:{ x:{ticks:{font:{family:"Inter",size:10},color:"#8D9398"}}, y:{ticks:{font:{family:"Inter",size:9},color:"#8D9398"}} } }
+  });
+
+  // Gráfica valor promedio
+  destroyChart("chart-val-precio");
+  const ctx2 = document.getElementById("chart-val-precio").getContext("2d");
+  charts["chart-val-precio"] = new Chart(ctx2, {
+    type: "bar",
+    data: { labels: nombresCortos, datasets: [{ label:"Valor Prom.", data: stats.map(s=>s.valor), backgroundColor:"#52BCF5", borderRadius:3 }] },
+    options: { indexAxis:"y", responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+      scales:{ x:{ticks:{font:{family:"Inter",size:10},color:"#8D9398",callback:v=>fmtK(v)}}, y:{ticks:{font:{family:"Inter",size:9},color:"#8D9398"}} } }
+  });
+
+  // Tabla
+  const tbody = document.getElementById("valuadoras-body");
+  tbody.innerHTML = stats.map((s,i) => `
+    <tr>
+      <td style="text-align:center;color:var(--depth-5);font-weight:600">${i+1}</td>
+      <td style="font-weight:500;max-width:280px;white-space:normal">${s.nombre}</td>
+      <td style="text-align:right">${fmtNum(s.count)}</td>
+      <td style="text-align:right">${fmtK(s.valor)}</td>
+      <td style="text-align:right">${fmtK(s.m2)}</td>
+      <td style="text-align:right">${fmtK(s.mediana)}</td>
+    </tr>`).join("");
+}
+
+// ── Comparables ───────────────────────────────────────────────────────────
+function initComparablesBuscador() {
+  const populate = (id, key) => {
+    const sel = document.getElementById(id);
+    const vals = [...new Set(allRecords.map(r=>r[key]).filter(Boolean))].sort();
+    vals.forEach(v => { const o = document.createElement("option"); o.value=v; o.textContent=v; sel.appendChild(o); });
+  };
+  populate("comp-estado", "estado");
+  populate("comp-tipo", "tipo");
+  populate("comp-clase", "clase");
+
+  document.getElementById("btn-buscar-comp").addEventListener("click", buscarComparables);
+}
+
+function buscarComparables() {
+  const estado = document.getElementById("comp-estado").value;
+  const tipo = document.getElementById("comp-tipo").value;
+  const clase = document.getElementById("comp-clase").value;
+  const sup = parseFloat(document.getElementById("comp-sup").value) || null;
+  const valor = parseFloat(document.getElementById("comp-valor").value) || null;
+  const rec = parseInt(document.getElementById("comp-rec").value) || null;
+
+  let results = [...allRecords];
+  if (estado) results = results.filter(r => r.estado === estado);
+  if (tipo) results = results.filter(r => r.tipo === tipo);
+  if (clase) results = results.filter(r => r.clase === clase);
+  if (rec) results = results.filter(r => rec >= 4 ? r.recamaras >= 4 : r.recamaras === rec);
+  if (valor) results = results.filter(r => r.valor <= valor);
+
+  // Si hay superficie, ordenar por proximidad
+  if (sup) {
+    results = results
+      .map(r => ({ ...r, _supDiff: Math.abs((r.sup_construida||0) - sup) }))
+      .sort((a,b) => a._supDiff - b._supDiff);
+  }
+
+  const top = results.slice(0, 50);
+  document.getElementById("comp-result-count").textContent =
+    `${fmtNum(results.length)} propiedades encontradas — mostrando las ${top.length} más similares`;
+
+  const tbody = document.getElementById("comparables-body");
+  tbody.innerHTML = top.map(r => `
+    <tr>
+      <td>${r.estado||"—"}</td>
+      <td>${r.municipio||"—"}</td>
+      <td>${r.colonia||"—"}</td>
+      <td><span class="badge badge-tipo">${r.tipo||"—"}</span></td>
+      <td><span class="badge badge-clase">${r.clase||"—"}</span></td>
+      <td>${r.conservacion||"—"}</td>
+      <td style="text-align:right">${r.sup_construida||"—"} m²</td>
+      <td style="text-align:right;font-weight:600">${fmt(r.valor)}</td>
+      <td style="text-align:right">${fmtNum(Math.round(r.m2_sv))}</td>
+      <td style="text-align:center">${r.recamaras||"—"}</td>
+    </tr>`).join("");
+}
+
+// ── Concentración ─────────────────────────────────────────────────────────
+function renderConcentracion(records) {
+  // Concentración por tipo y estado
+  const byEstTipo = {};
+  records.forEach(r => {
+    const k = r.estado||"N/A";
+    if (!byEstTipo[k]) byEstTipo[k] = {};
+    byEstTipo[k][r.tipo||"N/A"] = (byEstTipo[k][r.tipo||"N/A"]||0) + 1;
+  });
+  const topEst = Object.entries(byEstTipo).sort((a,b) =>
+    Object.values(b[1]).reduce((x,y)=>x+y,0) - Object.values(a[1]).reduce((x,y)=>x+y,0)
+  ).slice(0,10);
+
+  const tipos = [...new Set(records.map(r=>r.tipo).filter(Boolean))];
+  const COLORS_TIPO = ["#0875E3","#52BCF5","#FE2B7C","#FF9E9E","#C0CA33","#0CA036"];
+
+  destroyChart("chart-conc-tipo");
+  const ctx1 = document.getElementById("chart-conc-tipo").getContext("2d");
+  charts["chart-conc-tipo"] = new Chart(ctx1, {
+    type: "bar",
+    data: {
+      labels: topEst.map(x=>x[0]),
+      datasets: tipos.map((t,i) => ({
+        label: t,
+        data: topEst.map(([est, tmap]) => tmap[t]||0),
+        backgroundColor: COLORS_TIPO[i % COLORS_TIPO.length],
+        borderRadius: 2,
+      }))
+    },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{labels:{font:{family:"Inter",size:10},boxWidth:10}}},
+      scales:{ x:{stacked:true,ticks:{font:{family:"Inter",size:9},color:"#8D9398"}}, y:{stacked:true,ticks:{font:{family:"Inter",size:10},color:"#8D9398"}} } }
+  });
+
+  // $/m² por estado
+  const estStats = buildEstadoStats(records).sort((a,b)=>b.m2-a.m2);
+  destroyChart("chart-conc-m2");
+  const ctx2 = document.getElementById("chart-conc-m2").getContext("2d");
+  charts["chart-conc-m2"] = new Chart(ctx2, {
+    type: "bar",
+    data: { labels: estStats.map(s=>s.estado), datasets:[{ data:estStats.map(s=>s.m2), backgroundColor: estStats.map((_,i)=> i < 5 ? "#0CA036" : i >= estStats.length-5 ? "#AA2009" : "#0875E3"), borderRadius:3 }] },
+    options: { indexAxis:"y", responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+      scales:{ x:{ticks:{font:{family:"Inter",size:10},color:"#8D9398",callback:v=>fmtK(v)}}, y:{ticks:{font:{family:"Inter",size:9},color:"#8D9398"}} } }
+  });
+
+  // Tabla indicadores
+  const tbody = document.getElementById("concentracion-body");
+  const estAll = buildEstadoStats(records).sort((a,b)=>b.count-a.count);
+  tbody.innerHTML = estAll.map((s,i) => {
+    const casas = records.filter(r=>r.estado===s.estado && r.tipo==="Casa Habitación").length;
+    const pctCasa = Math.round((casas/s.count)*100);
+    const indiceAcc = s.m2 > 0 ? Math.round(s.mediana / s.m2) : 0;
+    return `<tr>
+      <td style="text-align:center;color:var(--depth-5)">${i+1}</td>
+      <td style="font-weight:500">${s.estado}</td>
+      <td style="text-align:right">${fmtNum(s.count)}</td>
+      <td style="text-align:right">${fmtK(s.m2)}</td>
+      <td style="text-align:right">${fmtK(s.mediana)}</td>
+      <td style="text-align:right;font-weight:600;color:var(--blue-p)">${fmtNum(indiceAcc)}</td>
+      <td style="text-align:right">${pctCasa}%</td>
+    </tr>`;
+  }).join("");
+}
+
+// ── Go ─────────────────────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,2163 @@
+{
+  "30": {
+    "131": {
+      "nombre": "Poza Rica de Hidalgo"
+    },
+    "189": {
+      "nombre": "Tuxpan"
+    },
+    "40": {
+      "nombre": "Coatzintla"
+    },
+    "28": {
+      "nombre": "Boca del Río"
+    },
+    "87": {
+      "nombre": "Xalapa"
+    },
+    "193": {
+      "nombre": "Veracruz"
+    },
+    "105": {
+      "nombre": "Medellín de Bravo"
+    },
+    "11": {
+      "nombre": "Alvarado"
+    },
+    "65": {
+      "nombre": "Emiliano Zapata"
+    },
+    "108": {
+      "nombre": "Minatitlán"
+    },
+    "97": {
+      "nombre": "Lerdo de Tejada"
+    },
+    "141": {
+      "nombre": "San Andrés Tuxtla"
+    },
+    "39": {
+      "nombre": "Coatzacoalcos"
+    },
+    "133": {
+      "nombre": "Pueblo Viejo"
+    },
+    "3": {
+      "nombre": "Acayucan"
+    },
+    "111": {
+      "nombre": "Moloacán"
+    },
+    "6": {
+      "nombre": "Acultzingo"
+    },
+    "44": {
+      "nombre": "Córdoba"
+    },
+    "32": {
+      "nombre": "Catemaco"
+    },
+    "45": {
+      "nombre": "Cosamaloapan de Carpio"
+    },
+    "69": {
+      "nombre": "Gutiérrez Zamora"
+    },
+    "48": {
+      "nombre": "Cosoleacaque"
+    },
+    "68": {
+      "nombre": "Fortín"
+    },
+    "38": {
+      "nombre": "Coatepec"
+    },
+    "81": {
+      "nombre": "Ixhuatlancillo"
+    },
+    "143": {
+      "nombre": "Santiago Tuxtla"
+    },
+    "124": {
+      "nombre": "Papantla"
+    },
+    "204": {
+      "nombre": "Agua Dulce"
+    },
+    "116": {
+      "nombre": "Oluta"
+    },
+    "126": {
+      "nombre": "Paso de Ovejas"
+    },
+    "10": {
+      "nombre": "Altotonga"
+    },
+    "101": {
+      "nombre": "Mariano Escobedo"
+    },
+    "118": {
+      "nombre": "Orizaba"
+    },
+    "60": {
+      "nombre": "Chinampa de Gorostiza"
+    },
+    "59": {
+      "nombre": "Chinameca"
+    },
+    "142": {
+      "nombre": "San Juan Evangelista"
+    },
+    "85": {
+      "nombre": "Ixtaczoquitlán"
+    },
+    "23": {
+      "nombre": "Atzalan"
+    },
+    "102": {
+      "nombre": "Martínez de la Torre"
+    },
+    "26": {
+      "nombre": "Banderilla"
+    },
+    "16": {
+      "nombre": "La Antigua"
+    },
+    "174": {
+      "nombre": "Tierra Blanca"
+    },
+    "77": {
+      "nombre": "Isla"
+    },
+    "73": {
+      "nombre": "Hueyapan de Ocampo"
+    },
+    "144": {
+      "nombre": "Sayula de Alemán"
+    },
+    "53": {
+      "nombre": "Cuitláhuac"
+    },
+    "182": {
+      "nombre": "Tlalnelhuayocan"
+    },
+    "89": {
+      "nombre": "Jáltipan"
+    },
+    "21": {
+      "nombre": "Atoyac"
+    },
+    "211": {
+      "nombre": "San Rafael"
+    },
+    "145": {
+      "nombre": "Soconusco"
+    },
+    "94": {
+      "nombre": "Juan Rodríguez Clara"
+    },
+    "191": {
+      "nombre": "Ursulo Galván"
+    },
+    "30": {
+      "nombre": "Camerino Z. Mendoza"
+    },
+    "209": {
+      "nombre": "Tatahuicapan de Juárez"
+    },
+    "138": {
+      "nombre": "Río Blanco"
+    },
+    "208": {
+      "nombre": "Carlos A. Carrillo"
+    },
+    "206": {
+      "nombre": "Nanchital de Lázaro Cárdenas del Río"
+    },
+    "160": {
+      "nombre": "Álamo Temapache"
+    },
+    "128": {
+      "nombre": "Perote"
+    },
+    "55": {
+      "nombre": "Chalma"
+    },
+    "175": {
+      "nombre": "Tihuatlán"
+    },
+    "134": {
+      "nombre": "Puente Nacional"
+    },
+    "82": {
+      "nombre": "Ixhuatlán del Sureste"
+    },
+    "123": {
+      "nombre": "Pánuco"
+    },
+    "61": {
+      "nombre": "Las Choapas"
+    },
+    "112": {
+      "nombre": "Naolinco"
+    },
+    "15": {
+      "nombre": "Angel R. Cabada"
+    },
+    "1": {
+      "nombre": "Acajete"
+    },
+    "135": {
+      "nombre": "Rafael Delgado"
+    },
+    "90": {
+      "nombre": "Jamapa"
+    },
+    "164": {
+      "nombre": "Teocelo"
+    },
+    "207": {
+      "nombre": "Tres Valles"
+    },
+    "104": {
+      "nombre": "Mecayapan"
+    },
+    "125": {
+      "nombre": "Paso del Macho"
+    },
+    "115": {
+      "nombre": "Nogales"
+    },
+    "161": {
+      "nombre": "Tempoal"
+    },
+    "14": {
+      "nombre": "Amatlán de los Reyes"
+    },
+    "181": {
+      "nombre": "Tlalixcoyan"
+    },
+    "71": {
+      "nombre": "Huatusco"
+    },
+    "148": {
+      "nombre": "Soledad de Doblado"
+    },
+    "172": {
+      "nombre": "Texistepec"
+    },
+    "130": {
+      "nombre": "Playa Vicente"
+    },
+    "169": {
+      "nombre": "José Azueta"
+    },
+    "139": {
+      "nombre": "Saltabarranca"
+    },
+    "58": {
+      "nombre": "Chicontepec"
+    },
+    "36": {
+      "nombre": "Coacoatzintla"
+    },
+    "203": {
+      "nombre": "Zozocolco de Hidalgo"
+    },
+    "173": {
+      "nombre": "Tezonapa"
+    },
+    "34": {
+      "nombre": "Cerro Azul"
+    },
+    "109": {
+      "nombre": "Misantla"
+    },
+    "196": {
+      "nombre": "Yanga"
+    }
+  },
+  "11": {
+    "17": {
+      "nombre": "Irapuato"
+    },
+    "20": {
+      "nombre": "León"
+    },
+    "5": {
+      "nombre": "Apaseo el Grande"
+    },
+    "7": {
+      "nombre": "Celaya"
+    },
+    "27": {
+      "nombre": "Salamanca"
+    },
+    "32": {
+      "nombre": "San José de Iturbide"
+    },
+    "3": {
+      "nombre": "San Miguel de Allende"
+    },
+    "31": {
+      "nombre": "San Francisco del Rincón"
+    },
+    "37": {
+      "nombre": "Silao de la Victoria"
+    },
+    "15": {
+      "nombre": "Guanajuato"
+    },
+    "23": {
+      "nombre": "Pénjamo"
+    },
+    "42": {
+      "nombre": "Valle de Santiago"
+    },
+    "41": {
+      "nombre": "Uriangato"
+    },
+    "44": {
+      "nombre": "Villagrán"
+    },
+    "4": {
+      "nombre": "Apaseo el Alto"
+    },
+    "21": {
+      "nombre": "Moroleón"
+    },
+    "14": {
+      "nombre": "Dolores Hidalgo Cuna de la Independencia Nacional"
+    },
+    "2": {
+      "nombre": "Acámbaro"
+    },
+    "11": {
+      "nombre": "Cortazar"
+    },
+    "28": {
+      "nombre": "Salvatierra"
+    },
+    "25": {
+      "nombre": "Purísima del Rincón"
+    },
+    "30": {
+      "nombre": "San Felipe"
+    },
+    "33": {
+      "nombre": "San Luis de la Paz"
+    },
+    "1": {
+      "nombre": "Abasolo"
+    },
+    "26": {
+      "nombre": "Romita"
+    },
+    "35": {
+      "nombre": "Santa Cruz de Juventino Rosas"
+    },
+    "19": {
+      "nombre": "Jerécuaro"
+    }
+  },
+  "19": {
+    "41": {
+      "nombre": "Pesquería"
+    },
+    "18": {
+      "nombre": "García"
+    },
+    "49": {
+      "nombre": "Santiago"
+    },
+    "19": {
+      "nombre": "San Pedro Garza García"
+    },
+    "6": {
+      "nombre": "Apodaca"
+    },
+    "46": {
+      "nombre": "San Nicolás de los Garza"
+    },
+    "39": {
+      "nombre": "Monterrey"
+    },
+    "48": {
+      "nombre": "Santa Catarina"
+    },
+    "26": {
+      "nombre": "Guadalupe"
+    },
+    "21": {
+      "nombre": "General Escobedo"
+    },
+    "31": {
+      "nombre": "Juárez"
+    },
+    "9": {
+      "nombre": "Cadereyta Jiménez"
+    },
+    "10": {
+      "nombre": "El Carmen"
+    },
+    "38": {
+      "nombre": "Montemorelos"
+    },
+    "12": {
+      "nombre": "Ciénega de Flores"
+    },
+    "45": {
+      "nombre": "Salinas Victoria"
+    },
+    "25": {
+      "nombre": "General Zuazua"
+    },
+    "20": {
+      "nombre": "General Bravo"
+    },
+    "4": {
+      "nombre": "Allende"
+    },
+    "33": {
+      "nombre": "Linares"
+    },
+    "44": {
+      "nombre": "Sabinas Hidalgo"
+    },
+    "24": {
+      "nombre": "General Zaragoza"
+    },
+    "16": {
+      "nombre": "Doctor González"
+    }
+  },
+  "8": {
+    "21": {
+      "nombre": "Delicias"
+    },
+    "13": {
+      "nombre": "Casas Grandes"
+    },
+    "37": {
+      "nombre": "Juárez"
+    },
+    "19": {
+      "nombre": "Chihuahua"
+    },
+    "11": {
+      "nombre": "Camargo"
+    },
+    "50": {
+      "nombre": "Nuevo Casas Grandes"
+    },
+    "4": {
+      "nombre": "Aquiles Serdán"
+    },
+    "17": {
+      "nombre": "Cuauhtémoc"
+    },
+    "55": {
+      "nombre": "Rosales"
+    },
+    "45": {
+      "nombre": "Meoqui"
+    },
+    "36": {
+      "nombre": "Jiménez"
+    },
+    "27": {
+      "nombre": "Guachochi"
+    },
+    "1": {
+      "nombre": "Ahumada"
+    },
+    "53": {
+      "nombre": "Praxedis G. Guerrero"
+    },
+    "2": {
+      "nombre": "Aldama"
+    },
+    "32": {
+      "nombre": "Hidalgo del Parral"
+    },
+    "43": {
+      "nombre": "Matachí"
+    },
+    "52": {
+      "nombre": "Ojinaga"
+    },
+    "62": {
+      "nombre": "Saucillo"
+    },
+    "40": {
+      "nombre": "Madera"
+    },
+    "25": {
+      "nombre": "Gómez Farías"
+    },
+    "5": {
+      "nombre": "Ascensión"
+    },
+    "3": {
+      "nombre": "Allende"
+    },
+    "16": {
+      "nombre": "La Cruz"
+    },
+    "60": {
+      "nombre": "Santa Bárbara"
+    },
+    "29": {
+      "nombre": "Guadalupe y Calvo"
+    }
+  },
+  "24": {
+    "28": {
+      "nombre": "San Luis Potosí"
+    },
+    "9": {
+      "nombre": "Cerro de San Pedro"
+    },
+    "32": {
+      "nombre": "Santa María del Río"
+    },
+    "20": {
+      "nombre": "Matehuala"
+    },
+    "35": {
+      "nombre": "Soledad de Graciano Sánchez"
+    },
+    "13": {
+      "nombre": "Ciudad Valles"
+    },
+    "40": {
+      "nombre": "Tamuín"
+    },
+    "21": {
+      "nombre": "Mexquitic de Carmona"
+    },
+    "24": {
+      "nombre": "Rioverde"
+    },
+    "11": {
+      "nombre": "Ciudad Fernández"
+    },
+    "50": {
+      "nombre": "Villa de Reyes"
+    },
+    "36": {
+      "nombre": "Tamasopo"
+    },
+    "37": {
+      "nombre": "Tamazunchale"
+    },
+    "15": {
+      "nombre": "Charcas"
+    },
+    "16": {
+      "nombre": "Ebano"
+    },
+    "53": {
+      "nombre": "Axtla de Terrazas"
+    },
+    "34": {
+      "nombre": "San Vicente Tancuayalab"
+    },
+    "45": {
+      "nombre": "Venado"
+    }
+  },
+  "28": {
+    "41": {
+      "nombre": "Victoria"
+    },
+    "27": {
+      "nombre": "Nuevo Laredo"
+    },
+    "9": {
+      "nombre": "Ciudad Madero"
+    },
+    "38": {
+      "nombre": "Tampico"
+    },
+    "3": {
+      "nombre": "Altamira"
+    },
+    "32": {
+      "nombre": "Reynosa"
+    },
+    "13": {
+      "nombre": "Güémez"
+    },
+    "22": {
+      "nombre": "Matamoros"
+    },
+    "33": {
+      "nombre": "Río Bravo"
+    },
+    "25": {
+      "nombre": "Miguel Alemán"
+    },
+    "21": {
+      "nombre": "El Mante"
+    },
+    "40": {
+      "nombre": "Valle Hermoso"
+    },
+    "30": {
+      "nombre": "Padilla"
+    },
+    "35": {
+      "nombre": "San Fernando"
+    },
+    "12": {
+      "nombre": "González"
+    },
+    "15": {
+      "nombre": "Gustavo Díaz Ordaz"
+    }
+  },
+  "31": {
+    "50": {
+      "nombre": "Mérida"
+    },
+    "13": {
+      "nombre": "Conkal"
+    },
+    "41": {
+      "nombre": "Kanasín"
+    },
+    "26": {
+      "nombre": "Dzemul"
+    },
+    "101": {
+      "nombre": "Umán"
+    },
+    "102": {
+      "nombre": "Valladolid"
+    },
+    "40": {
+      "nombre": "Izamal"
+    },
+    "7": {
+      "nombre": "Cacalchén"
+    },
+    "96": {
+      "nombre": "Tizimín"
+    },
+    "67": {
+      "nombre": "Seyé"
+    },
+    "59": {
+      "nombre": "Progreso"
+    },
+    "4": {
+      "nombre": "Baca"
+    },
+    "20": {
+      "nombre": "Chicxulub Pueblo"
+    },
+    "38": {
+      "nombre": "Hunucmá"
+    },
+    "52": {
+      "nombre": "Motul"
+    },
+    "83": {
+      "nombre": "Telchac Puerto"
+    },
+    "48": {
+      "nombre": "Maxcanú"
+    },
+    "39": {
+      "nombre": "Ixil"
+    },
+    "105": {
+      "nombre": "Yaxkukul"
+    },
+    "56": {
+      "nombre": "Oxkutzcab"
+    },
+    "80": {
+      "nombre": "Tekit"
+    },
+    "79": {
+      "nombre": "Tekax"
+    },
+    "89": {
+      "nombre": "Ticul"
+    },
+    "27": {
+      "nombre": "Dzidzantún"
+    },
+    "93": {
+      "nombre": "Tixkokob"
+    },
+    "9": {
+      "nombre": "Cansahcab"
+    },
+    "44": {
+      "nombre": "Kinchil"
+    },
+    "3": {
+      "nombre": "Akil"
+    }
+  },
+  "26": {
+    "30": {
+      "nombre": "Hermosillo"
+    },
+    "29": {
+      "nombre": "Guaymas"
+    },
+    "18": {
+      "nombre": "Cajeme"
+    },
+    "17": {
+      "nombre": "Caborca"
+    },
+    "42": {
+      "nombre": "Navojoa"
+    },
+    "2": {
+      "nombre": "Agua Prieta"
+    },
+    "43": {
+      "nombre": "Nogales"
+    },
+    "48": {
+      "nombre": "Puerto Peñasco"
+    },
+    "55": {
+      "nombre": "San Luis Río Colorado"
+    },
+    "33": {
+      "nombre": "Huatabampo"
+    },
+    "25": {
+      "nombre": "Empalme"
+    },
+    "12": {
+      "nombre": "Bácum"
+    },
+    "71": {
+      "nombre": "Benito Juárez"
+    },
+    "19": {
+      "nombre": "Cananea"
+    },
+    "36": {
+      "nombre": "Magdalena"
+    },
+    "58": {
+      "nombre": "Santa Ana"
+    },
+    "41": {
+      "nombre": "Nacozari de García"
+    },
+    "26": {
+      "nombre": "Etchojoa"
+    }
+  },
+  "25": {
+    "1": {
+      "nombre": "Ahome"
+    },
+    "6": {
+      "nombre": "Culiacán"
+    },
+    "12": {
+      "nombre": "Mazatlán"
+    },
+    "15": {
+      "nombre": "Salvador Alvarado"
+    },
+    "18": {
+      "nombre": "Navolato"
+    },
+    "11": {
+      "nombre": "Guasave"
+    },
+    "2": {
+      "nombre": "Angostura"
+    },
+    "17": {
+      "nombre": "Sinaloa"
+    },
+    "14": {
+      "nombre": "Rosario"
+    },
+    "8": {
+      "nombre": "Elota"
+    },
+    "9": {
+      "nombre": "Escuinapa"
+    }
+  },
+  "16": {
+    "102": {
+      "nombre": "Uruapan"
+    },
+    "68": {
+      "nombre": "Peribán"
+    },
+    "53": {
+      "nombre": "Morelia"
+    },
+    "76": {
+      "nombre": "Sahuayo"
+    },
+    "108": {
+      "nombre": "Zamora"
+    },
+    "52": {
+      "nombre": "Lázaro Cárdenas"
+    },
+    "88": {
+      "nombre": "Tarímbaro"
+    },
+    "107": {
+      "nombre": "Zacapu"
+    },
+    "11": {
+      "nombre": "Briseñas"
+    },
+    "75": {
+      "nombre": "Los Reyes"
+    },
+    "50": {
+      "nombre": "Maravatío"
+    },
+    "69": {
+      "nombre": "La Piedad"
+    },
+    "43": {
+      "nombre": "Jacona"
+    },
+    "65": {
+      "nombre": "Paracho"
+    },
+    "112": {
+      "nombre": "Zitácuaro"
+    },
+    "55": {
+      "nombre": "Múgica"
+    },
+    "66": {
+      "nombre": "Pátzcuaro"
+    },
+    "34": {
+      "nombre": "Hidalgo"
+    },
+    "6": {
+      "nombre": "Apatzingán"
+    },
+    "45": {
+      "nombre": "Jiquilpan"
+    },
+    "60": {
+      "nombre": "Numarán"
+    },
+    "10": {
+      "nombre": "Arteaga"
+    },
+    "71": {
+      "nombre": "Puruándiro"
+    },
+    "51": {
+      "nombre": "Marcos Castellanos"
+    },
+    "91": {
+      "nombre": "Tingüindín"
+    },
+    "98": {
+      "nombre": "Tuxpan"
+    }
+  },
+  "32": {
+    "56": {
+      "nombre": "Zacatecas"
+    },
+    "17": {
+      "nombre": "Guadalupe"
+    },
+    "22": {
+      "nombre": "Juan Aldama"
+    },
+    "36": {
+      "nombre": "Ojocaliente"
+    },
+    "20": {
+      "nombre": "Jerez"
+    },
+    "10": {
+      "nombre": "Fresnillo"
+    },
+    "39": {
+      "nombre": "Río Grande"
+    },
+    "19": {
+      "nombre": "Jalpa"
+    },
+    "49": {
+      "nombre": "Valparaíso"
+    },
+    "5": {
+      "nombre": "Calera"
+    },
+    "38": {
+      "nombre": "Pinos"
+    },
+    "48": {
+      "nombre": "Tlaltenango de Sánchez Román"
+    },
+    "52": {
+      "nombre": "Villa García"
+    },
+    "25": {
+      "nombre": "Luis Moya"
+    }
+  },
+  "17": {
+    "4": {
+      "nombre": "Ayala"
+    },
+    "2": {
+      "nombre": "Atlatlahucan"
+    },
+    "29": {
+      "nombre": "Yautepec"
+    },
+    "8": {
+      "nombre": "Emiliano Zapata"
+    },
+    "11": {
+      "nombre": "Jiutepec"
+    },
+    "17": {
+      "nombre": "Puente de Ixtla"
+    },
+    "26": {
+      "nombre": "Tlayacapan"
+    },
+    "7": {
+      "nombre": "Cuernavaca"
+    },
+    "28": {
+      "nombre": "Xochitepec"
+    },
+    "12": {
+      "nombre": "Jojutla"
+    },
+    "18": {
+      "nombre": "Temixco"
+    },
+    "30": {
+      "nombre": "Yecapixtla"
+    },
+    "24": {
+      "nombre": "Tlaltizapán de Zapata"
+    },
+    "9": {
+      "nombre": "Huitzilac"
+    },
+    "6": {
+      "nombre": "Cuautla"
+    },
+    "31": {
+      "nombre": "Zacatepec"
+    },
+    "13": {
+      "nombre": "Jonacatepec de Leandro Valle"
+    },
+    "20": {
+      "nombre": "Tepoztlán"
+    },
+    "1": {
+      "nombre": "Amacuzac"
+    }
+  },
+  "22": {
+    "11": {
+      "nombre": "El Marqués"
+    },
+    "14": {
+      "nombre": "Querétaro"
+    },
+    "6": {
+      "nombre": "Corregidora"
+    },
+    "16": {
+      "nombre": "San Juan del Río"
+    },
+    "17": {
+      "nombre": "Tequisquiapan"
+    },
+    "12": {
+      "nombre": "Pedro Escobedo"
+    },
+    "7": {
+      "nombre": "Ezequiel Montes"
+    }
+  },
+  "3": {
+    "8": {
+      "nombre": "Los Cabos"
+    },
+    "3": {
+      "nombre": "La Paz"
+    },
+    "1": {
+      "nombre": "Comondú"
+    },
+    "2": {
+      "nombre": "Mulegé"
+    }
+  },
+  "5": {
+    "18": {
+      "nombre": "Monclova"
+    },
+    "30": {
+      "nombre": "Saltillo"
+    },
+    "35": {
+      "nombre": "Torreón"
+    },
+    "25": {
+      "nombre": "Piedras Negras"
+    },
+    "27": {
+      "nombre": "Ramos Arizpe"
+    },
+    "17": {
+      "nombre": "Matamoros"
+    },
+    "16": {
+      "nombre": "Lamadrid"
+    },
+    "28": {
+      "nombre": "Sabinas"
+    },
+    "32": {
+      "nombre": "San Juan de Sabinas"
+    },
+    "4": {
+      "nombre": "Arteaga"
+    },
+    "2": {
+      "nombre": "Acuña"
+    },
+    "3": {
+      "nombre": "Allende"
+    },
+    "20": {
+      "nombre": "Múzquiz"
+    },
+    "10": {
+      "nombre": "Frontera"
+    },
+    "22": {
+      "nombre": "Nava"
+    },
+    "24": {
+      "nombre": "Parras"
+    },
+    "6": {
+      "nombre": "Castaños"
+    },
+    "33": {
+      "nombre": "San Pedro"
+    },
+    "31": {
+      "nombre": "San Buenaventura"
+    },
+    "9": {
+      "nombre": "Francisco I. Madero"
+    },
+    "38": {
+      "nombre": "Zaragoza"
+    },
+    "11": {
+      "nombre": "General Cepeda"
+    },
+    "29": {
+      "nombre": "Sacramento"
+    },
+    "21": {
+      "nombre": "Nadadores"
+    }
+  },
+  "10": {
+    "7": {
+      "nombre": "Gómez Palacio"
+    },
+    "12": {
+      "nombre": "Lerdo"
+    },
+    "5": {
+      "nombre": "Durango"
+    },
+    "13": {
+      "nombre": "Mapimí"
+    },
+    "4": {
+      "nombre": "Cuencamé"
+    },
+    "8": {
+      "nombre": "Guadalupe Victoria"
+    },
+    "32": {
+      "nombre": "Santiago Papasquiaro"
+    }
+  },
+  "27": {
+    "4": {
+      "nombre": "Centro"
+    },
+    "2": {
+      "nombre": "Cárdenas"
+    },
+    "14": {
+      "nombre": "Paraíso"
+    },
+    "13": {
+      "nombre": "Nacajuca"
+    },
+    "12": {
+      "nombre": "Macuspana"
+    },
+    "5": {
+      "nombre": "Comalcalco"
+    },
+    "6": {
+      "nombre": "Cunduacán"
+    },
+    "16": {
+      "nombre": "Teapa"
+    },
+    "7": {
+      "nombre": "Emiliano Zapata"
+    },
+    "17": {
+      "nombre": "Tenosique"
+    },
+    "10": {
+      "nombre": "Jalpa de Méndez"
+    },
+    "15": {
+      "nombre": "Tacotalpa"
+    },
+    "3": {
+      "nombre": "Centla"
+    },
+    "8": {
+      "nombre": "Huimanguillo"
+    },
+    "1": {
+      "nombre": "Balancán"
+    },
+    "9": {
+      "nombre": "Jalapa"
+    },
+    "11": {
+      "nombre": "Jonuta"
+    }
+  },
+  "7": {
+    "79": {
+      "nombre": "San Fernando"
+    },
+    "78": {
+      "nombre": "San Cristóbal de las Casas"
+    },
+    "27": {
+      "nombre": "Chiapa de Corzo"
+    },
+    "89": {
+      "nombre": "Tapachula"
+    },
+    "101": {
+      "nombre": "Tuxtla Gutiérrez"
+    },
+    "17": {
+      "nombre": "Cintalapa de Figueroa"
+    },
+    "12": {
+      "nombre": "Berriozábal"
+    },
+    "65": {
+      "nombre": "Palenque"
+    },
+    "108": {
+      "nombre": "Villaflores"
+    },
+    "61": {
+      "nombre": "Ocozocoautla de Espinosa"
+    },
+    "46": {
+      "nombre": "Jiquipilas"
+    },
+    "86": {
+      "nombre": "Suchiapa"
+    },
+    "32": {
+      "nombre": "Escuintla"
+    },
+    "19": {
+      "nombre": "Comitán de Domínguez"
+    },
+    "28": {
+      "nombre": "Chiapilla"
+    },
+    "21": {
+      "nombre": "Copainalá"
+    },
+    "68": {
+      "nombre": "Pichucalco"
+    },
+    "15": {
+      "nombre": "Cacahoatán"
+    },
+    "74": {
+      "nombre": "Reforma"
+    },
+    "97": {
+      "nombre": "Tonalá"
+    },
+    "59": {
+      "nombre": "Ocosingo"
+    },
+    "102": {
+      "nombre": "Tuxtla Chico"
+    },
+    "34": {
+      "nombre": "Frontera Comalapa"
+    },
+    "9": {
+      "nombre": "Arriaga"
+    },
+    "87": {
+      "nombre": "Suchiate"
+    },
+    "40": {
+      "nombre": "Huixtla"
+    },
+    "107": {
+      "nombre": "Villa Corzo"
+    },
+    "92": {
+      "nombre": "Tecpatán"
+    }
+  },
+  "15": {
+    "24": {
+      "nombre": "Cuautitlán"
+    },
+    "57": {
+      "nombre": "Naucalpan de Juárez"
+    },
+    "110": {
+      "nombre": "Valle de Bravo"
+    },
+    "54": {
+      "nombre": "Metepec"
+    },
+    "106": {
+      "nombre": "Toluca"
+    },
+    "33": {
+      "nombre": "Ecatepec de Morelos"
+    },
+    "81": {
+      "nombre": "Tecámac"
+    },
+    "120": {
+      "nombre": "Zumpango"
+    },
+    "13": {
+      "nombre": "Atizapán de Zaragoza"
+    },
+    "76": {
+      "nombre": "San Mateo Atenco"
+    },
+    "122": {
+      "nombre": "Valle de Chalco Solidaridad"
+    },
+    "5": {
+      "nombre": "Almoloya de Juárez"
+    },
+    "104": {
+      "nombre": "Tlalnepantla de Baz"
+    },
+    "18": {
+      "nombre": "Calimaya"
+    },
+    "35": {
+      "nombre": "Huehuetoca"
+    },
+    "2": {
+      "nombre": "Acolman"
+    },
+    "121": {
+      "nombre": "Cuautitlán Izcalli"
+    },
+    "99": {
+      "nombre": "Texcoco"
+    },
+    "87": {
+      "nombre": "Temoaya"
+    },
+    "31": {
+      "nombre": "Chimalhuacán"
+    },
+    "62": {
+      "nombre": "Ocoyoacac"
+    },
+    "20": {
+      "nombre": "Coacalco de Berriozábal"
+    },
+    "58": {
+      "nombre": "Nezahualcóyotl"
+    },
+    "65": {
+      "nombre": "Otumba"
+    },
+    "37": {
+      "nombre": "Huixquilucan"
+    },
+    "95": {
+      "nombre": "Tepotzotlán"
+    },
+    "39": {
+      "nombre": "Ixtapaluca"
+    },
+    "25": {
+      "nombre": "Chalco"
+    },
+    "46": {
+      "nombre": "Jilotzingo"
+    },
+    "59": {
+      "nombre": "Nextlalpan"
+    },
+    "53": {
+      "nombre": "Melchor Ocampo"
+    },
+    "51": {
+      "nombre": "Lerma"
+    },
+    "67": {
+      "nombre": "Otzolotepec"
+    },
+    "60": {
+      "nombre": "Nicolás Romero"
+    },
+    "55": {
+      "nombre": "Mexicaltzingo"
+    },
+    "101": {
+      "nombre": "Tianguistenco"
+    },
+    "109": {
+      "nombre": "Tultitlán"
+    },
+    "14": {
+      "nombre": "Atlacomulco"
+    },
+    "70": {
+      "nombre": "La Paz"
+    },
+    "118": {
+      "nombre": "Zinacantepec"
+    },
+    "44": {
+      "nombre": "Jaltenco"
+    },
+    "27": {
+      "nombre": "Chapultepec"
+    },
+    "73": {
+      "nombre": "San Antonio la Isla"
+    },
+    "91": {
+      "nombre": "Teoloyucan"
+    },
+    "29": {
+      "nombre": "Chicoloapan"
+    },
+    "108": {
+      "nombre": "Tultepec"
+    },
+    "92": {
+      "nombre": "Teotihuacán"
+    },
+    "45": {
+      "nombre": "Jilotepec"
+    },
+    "90": {
+      "nombre": "Tenango del Valle"
+    },
+    "103": {
+      "nombre": "Tlalmanalco"
+    },
+    "125": {
+      "nombre": "Tonanitla"
+    },
+    "3": {
+      "nombre": "Aculco"
+    },
+    "11": {
+      "nombre": "Atenco"
+    },
+    "52": {
+      "nombre": "Malinalco"
+    },
+    "115": {
+      "nombre": "Xonacatlán"
+    },
+    "9": {
+      "nombre": "Amecameca"
+    }
+  },
+  "23": {
+    "11": {
+      "nombre": "Puerto Morelos"
+    },
+    "5": {
+      "nombre": "Benito Juárez"
+    },
+    "9": {
+      "nombre": "Tulum"
+    },
+    "8": {
+      "nombre": "Playa del Carmen"
+    },
+    "4": {
+      "nombre": "Othón P. Blanco"
+    },
+    "1": {
+      "nombre": "Cozumel"
+    },
+    "10": {
+      "nombre": "Bacalar"
+    },
+    "3": {
+      "nombre": "Isla Mujeres"
+    }
+  },
+  "21": {
+    "119": {
+      "nombre": "San Andrés Cholula"
+    },
+    "114": {
+      "nombre": "Puebla"
+    },
+    "34": {
+      "nombre": "Coronango"
+    },
+    "15": {
+      "nombre": "Amozoc"
+    },
+    "106": {
+      "nombre": "Ocoyucan"
+    },
+    "132": {
+      "nombre": "San Martín Texmelucan"
+    },
+    "41": {
+      "nombre": "Cuautlancingo"
+    },
+    "19": {
+      "nombre": "Atlixco"
+    },
+    "174": {
+      "nombre": "Teziutlán"
+    },
+    "71": {
+      "nombre": "Huauchinango"
+    },
+    "140": {
+      "nombre": "San Pedro Cholula"
+    },
+    "156": {
+      "nombre": "Tehuacán"
+    },
+    "154": {
+      "nombre": "Tecamachalco"
+    },
+    "74": {
+      "nombre": "Huejotzingo"
+    },
+    "128": {
+      "nombre": "San José Chiapa"
+    },
+    "143": {
+      "nombre": "San Salvador el Verde"
+    },
+    "158": {
+      "nombre": "Tenampulco"
+    },
+    "177": {
+      "nombre": "Tlacotepec de Benito Juárez"
+    },
+    "175": {
+      "nombre": "Tianguismanalco"
+    },
+    "45": {
+      "nombre": "Chalchicomula de Sesma"
+    },
+    "53": {
+      "nombre": "Chignahuapan"
+    },
+    "90": {
+      "nombre": "Juan C. Bonilla"
+    },
+    "85": {
+      "nombre": "Izúcar de Matamoros"
+    },
+    "54": {
+      "nombre": "Chignautla"
+    },
+    "173": {
+      "nombre": "Teteles de Ávila Castillo"
+    },
+    "208": {
+      "nombre": "Zacatlán"
+    },
+    "148": {
+      "nombre": "Santa Isabel Cholula"
+    },
+    "43": {
+      "nombre": "Cuetzalan del Progreso"
+    }
+  },
+  "2": {
+    "1": {
+      "nombre": "Ensenada"
+    },
+    "4": {
+      "nombre": "Tijuana"
+    },
+    "5": {
+      "nombre": "Playas de Rosarito"
+    },
+    "2": {
+      "nombre": "Mexicali"
+    },
+    "7": {
+      "nombre": "San Felipe"
+    },
+    "6": {
+      "nombre": "San Quintín"
+    },
+    "3": {
+      "nombre": "Tecate"
+    }
+  },
+  "1": {
+    "5": {
+      "nombre": "Jesús María"
+    },
+    "1": {
+      "nombre": "Aguascalientes"
+    },
+    "11": {
+      "nombre": "San Francisco de los Romo"
+    },
+    "3": {
+      "nombre": "Calvillo"
+    },
+    "6": {
+      "nombre": "Pabellón de Arteaga"
+    },
+    "7": {
+      "nombre": "Rincón de Romos"
+    }
+  },
+  "14": {
+    "39": {
+      "nombre": "Guadalajara"
+    },
+    "97": {
+      "nombre": "Tlajomulco de Zúñiga"
+    },
+    "101": {
+      "nombre": "Tonalá"
+    },
+    "67": {
+      "nombre": "Puerto Vallarta"
+    },
+    "120": {
+      "nombre": "Zapopan"
+    },
+    "70": {
+      "nombre": "El Salto"
+    },
+    "98": {
+      "nombre": "San Pedro Tlaquepaque"
+    },
+    "37": {
+      "nombre": "El Grullo"
+    },
+    "93": {
+      "nombre": "Tepatitlán de Morelos"
+    },
+    "23": {
+      "nombre": "Zapotlán el Grande"
+    },
+    "44": {
+      "nombre": "Ixtlahuacán de los Membrillos"
+    },
+    "53": {
+      "nombre": "Lagos de Moreno"
+    },
+    "36": {
+      "nombre": "Etzatlán"
+    },
+    "114": {
+      "nombre": "Villa Corona"
+    },
+    "51": {
+      "nombre": "Juanacatlán"
+    },
+    "6": {
+      "nombre": "Ameca"
+    },
+    "59": {
+      "nombre": "Mazamitla"
+    },
+    "50": {
+      "nombre": "Jocotepec"
+    },
+    "63": {
+      "nombre": "Ocotlán"
+    },
+    "83": {
+      "nombre": "Tala"
+    },
+    "30": {
+      "nombre": "Chapala"
+    },
+    "15": {
+      "nombre": "Autlán de Navarro"
+    },
+    "13": {
+      "nombre": "Atotonilco el Alto"
+    },
+    "9": {
+      "nombre": "El Arenal"
+    },
+    "82": {
+      "nombre": "Sayula"
+    },
+    "35": {
+      "nombre": "Encarnación de Díaz"
+    },
+    "73": {
+      "nombre": "San Juan de los Lagos"
+    },
+    "78": {
+      "nombre": "San Miguel el Alto"
+    },
+    "103": {
+      "nombre": "Tonila"
+    },
+    "1": {
+      "nombre": "Acatic"
+    },
+    "66": {
+      "nombre": "Poncitlán"
+    },
+    "5": {
+      "nombre": "Amatitán"
+    },
+    "85": {
+      "nombre": "Tamazula de Gordiano"
+    },
+    "121": {
+      "nombre": "Zapotiltic"
+    },
+    "124": {
+      "nombre": "Zapotlanejo"
+    },
+    "109": {
+      "nombre": "Unión de San Antonio"
+    },
+    "108": {
+      "nombre": "Tuxpan"
+    },
+    "18": {
+      "nombre": "La Barca"
+    },
+    "107": {
+      "nombre": "Tuxcueca"
+    }
+  },
+  "6": {
+    "10": {
+      "nombre": "Villa de Álvarez"
+    },
+    "5": {
+      "nombre": "Cuauhtémoc"
+    },
+    "2": {
+      "nombre": "Colima"
+    },
+    "7": {
+      "nombre": "Manzanillo"
+    },
+    "9": {
+      "nombre": "Tecomán"
+    },
+    "4": {
+      "nombre": "Coquimatlán"
+    },
+    "3": {
+      "nombre": "Comala"
+    }
+  },
+  "20": {
+    "553": {
+      "nombre": "Tlalixtac de Cabrera"
+    },
+    "67": {
+      "nombre": "Oaxaca de Juárez"
+    },
+    "385": {
+      "nombre": "Santa Cruz Xoxocotlán"
+    },
+    "520": {
+      "nombre": "Santo Domingo Tonalá"
+    },
+    "482": {
+      "nombre": "Santiago Pinotepa Nacional"
+    },
+    "115": {
+      "nombre": "San Bartolo Coyotepec"
+    },
+    "342": {
+      "nombre": "San Raymundo Jalpan"
+    },
+    "413": {
+      "nombre": "Santa María Huatulco"
+    },
+    "184": {
+      "nombre": "San Juan Bautista Tuxtepec"
+    },
+    "390": {
+      "nombre": "Santa Lucía del Camino"
+    },
+    "43": {
+      "nombre": "Heroica Ciudad de Juchitán de Zaragoza"
+    },
+    "551": {
+      "nombre": "Tlacolula de Matamoros"
+    },
+    "293": {
+      "nombre": "San Pablo Etla"
+    },
+    "107": {
+      "nombre": "San Antonio de la Cal"
+    },
+    "2": {
+      "nombre": "Acatlán de Pérez Figueroa"
+    },
+    "14": {
+      "nombre": "Ciudad Ixtepec"
+    },
+    "157": {
+      "nombre": "San Jacinto Amilpas"
+    },
+    "79": {
+      "nombre": "Salina Cruz"
+    },
+    "318": {
+      "nombre": "San Pedro Mixtepec"
+    },
+    "399": {
+      "nombre": "Santa María Atzompa"
+    },
+    "178": {
+      "nombre": "San Juan Bautista Guelache"
+    },
+    "39": {
+      "nombre": "Heroica Ciudad de Huajuapan de León"
+    },
+    "338": {
+      "nombre": "Villa de Etla"
+    },
+    "515": {
+      "nombre": "Santo Domingo Tehuantepec"
+    },
+    "5": {
+      "nombre": "Asunción Ixtaltepec"
+    },
+    "350": {
+      "nombre": "San Sebastián Tutla"
+    },
+    "557": {
+      "nombre": "Unión Hidalgo"
+    },
+    "44": {
+      "nombre": "Loma Bonita"
+    },
+    "145": {
+      "nombre": "San Francisco Lachigoló"
+    },
+    "45": {
+      "nombre": "Magdalena Apazco"
+    },
+    "59": {
+      "nombre": "Heroica Ciudad de Miahuatlán de Porfirio Díaz"
+    },
+    "83": {
+      "nombre": "San Agustín de las Juntas"
+    },
+    "565": {
+      "nombre": "Villa de Zaachila"
+    }
+  },
+  "13": {
+    "51": {
+      "nombre": "Mineral de la Reforma"
+    },
+    "69": {
+      "nombre": "Tizayuca"
+    },
+    "83": {
+      "nombre": "Zempoala"
+    },
+    "48": {
+      "nombre": "Pachuca de Soto"
+    },
+    "13": {
+      "nombre": "Atotonilco de Tula"
+    },
+    "54": {
+      "nombre": "San Salvador"
+    },
+    "61": {
+      "nombre": "Tepeapulco"
+    },
+    "22": {
+      "nombre": "Epazoyucan"
+    },
+    "75": {
+      "nombre": "Tolcayuca"
+    },
+    "77": {
+      "nombre": "Tulancingo de Bravo"
+    },
+    "16": {
+      "nombre": "Cuautepec de Hinojosa"
+    },
+    "41": {
+      "nombre": "Mixquiahuala de Juárez"
+    },
+    "23": {
+      "nombre": "Francisco I. Madero"
+    },
+    "82": {
+      "nombre": "Zapotlán de Juárez"
+    },
+    "10": {
+      "nombre": "Atitalaquia"
+    },
+    "52": {
+      "nombre": "San Agustín Tlaxiaca"
+    },
+    "25": {
+      "nombre": "Huautla"
+    },
+    "28": {
+      "nombre": "Huejutla de Reyes"
+    },
+    "66": {
+      "nombre": "Villa de Tezontepec"
+    },
+    "26": {
+      "nombre": "Huazalingo"
+    },
+    "12": {
+      "nombre": "Atotonilco el Grande"
+    },
+    "63": {
+      "nombre": "Tepeji del Río de Ocampo"
+    },
+    "30": {
+      "nombre": "Ixmiquilpan"
+    },
+    "76": {
+      "nombre": "Tula de Allende"
+    },
+    "38": {
+      "nombre": "Mineral del Chico"
+    },
+    "70": {
+      "nombre": "Tlahuelilpan"
+    },
+    "3": {
+      "nombre": "Actopan"
+    },
+    "84": {
+      "nombre": "Zimapán"
+    },
+    "6": {
+      "nombre": "Alfajayucan"
+    },
+    "8": {
+      "nombre": "Apan"
+    },
+    "56": {
+      "nombre": "Santiago Tulantepec de Lugo Guerrero"
+    },
+    "32": {
+      "nombre": "Jaltocán"
+    },
+    "57": {
+      "nombre": "Singuilucan"
+    },
+    "29": {
+      "nombre": "Huichapan"
+    },
+    "11": {
+      "nombre": "Atlapexco"
+    },
+    "50": {
+      "nombre": "Progreso de Obregón"
+    },
+    "21": {
+      "nombre": "Emiliano Zapata"
+    },
+    "7": {
+      "nombre": "Almoloya"
+    }
+  },
+  "9": {
+    "16": {
+      "nombre": "Miguel Hidalgo"
+    },
+    "8": {
+      "nombre": "La Magdalena Contreras"
+    },
+    "4": {
+      "nombre": "Cuajimalpa de Morelos"
+    },
+    "10": {
+      "nombre": "Álvaro Obregón"
+    },
+    "2": {
+      "nombre": "Azcapotzalco"
+    },
+    "6": {
+      "nombre": "Iztacalco"
+    },
+    "17": {
+      "nombre": "Venustiano Carranza"
+    },
+    "7": {
+      "nombre": "Iztapalapa"
+    },
+    "3": {
+      "nombre": "Coyoacán"
+    },
+    "5": {
+      "nombre": "Gustavo A. Madero"
+    },
+    "12": {
+      "nombre": "Tlalpan"
+    },
+    "15": {
+      "nombre": "Cuauhtémoc"
+    },
+    "14": {
+      "nombre": "Benito Juárez"
+    },
+    "11": {
+      "nombre": "Tláhuac"
+    },
+    "13": {
+      "nombre": "Xochimilco"
+    }
+  },
+  "18": {
+    "17": {
+      "nombre": "Tepic"
+    },
+    "20": {
+      "nombre": "Bahía de Banderas"
+    },
+    "8": {
+      "nombre": "Xalisco"
+    },
+    "15": {
+      "nombre": "Santiago Ixcuintla"
+    },
+    "18": {
+      "nombre": "Tuxpan"
+    },
+    "4": {
+      "nombre": "Compostela"
+    }
+  },
+  "4": {
+    "3": {
+      "nombre": "Carmen"
+    },
+    "2": {
+      "nombre": "Campeche"
+    },
+    "9": {
+      "nombre": "Escárcega"
+    },
+    "4": {
+      "nombre": "Champotón"
+    },
+    "11": {
+      "nombre": "Candelaria"
+    },
+    "1": {
+      "nombre": "Calkiní"
+    },
+    "12": {
+      "nombre": "Seybaplaya"
+    },
+    "8": {
+      "nombre": "Tenabo"
+    },
+    "13": {
+      "nombre": "Dzitbalché"
+    }
+  },
+  "12": {
+    "1": {
+      "nombre": "Acapulco de Juárez"
+    },
+    "29": {
+      "nombre": "Chilpancingo de los Bravo"
+    },
+    "59": {
+      "nombre": "Tepecoacuilco de Trujano"
+    },
+    "66": {
+      "nombre": "Tlapa de Comonfort"
+    },
+    "61": {
+      "nombre": "Tixtla de Guerrero"
+    },
+    "21": {
+      "nombre": "Coyuca de Benítez"
+    },
+    "77": {
+      "nombre": "Marquelia"
+    },
+    "38": {
+      "nombre": "Zihuatanejo de Azueta"
+    },
+    "50": {
+      "nombre": "Pungarabato"
+    },
+    "35": {
+      "nombre": "Iguala de la Independencia"
+    },
+    "15": {
+      "nombre": "Buenavista de Cuéllar"
+    },
+    "55": {
+      "nombre": "Taxco de Alarcón"
+    },
+    "7": {
+      "nombre": "Arcelia"
+    },
+    "12": {
+      "nombre": "Ayutla de los Libres"
+    },
+    "11": {
+      "nombre": "Atoyac de Álvarez"
+    },
+    "46": {
+      "nombre": "Ometepec"
+    },
+    "28": {
+      "nombre": "Chilapa de Álvarez"
+    },
+    "57": {
+      "nombre": "Técpan de Galeana"
+    }
+  },
+  "29": {
+    "13": {
+      "nombre": "Huamantla"
+    },
+    "5": {
+      "nombre": "Apizaco"
+    },
+    "43": {
+      "nombre": "Yauhquemehcan"
+    },
+    "33": {
+      "nombre": "Tlaxcala"
+    },
+    "2": {
+      "nombre": "Apetatitlán de Antonio Carvajal"
+    },
+    "31": {
+      "nombre": "Tetla de la Solidaridad"
+    },
+    "26": {
+      "nombre": "Santa Cruz Tlaxcala"
+    },
+    "29": {
+      "nombre": "Tepeyanco"
+    },
+    "10": {
+      "nombre": "Chiautempan"
+    },
+    "38": {
+      "nombre": "Tzompantepec"
+    },
+    "15": {
+      "nombre": "Ixtacuixtla de Mariano Matamoros"
+    },
+    "24": {
+      "nombre": "Panotla"
+    },
+    "23": {
+      "nombre": "Natívitas"
+    },
+    "42": {
+      "nombre": "Xicohtzinco"
+    },
+    "30": {
+      "nombre": "Terrenate"
+    },
+    "8": {
+      "nombre": "Cuapiaxtla"
+    },
+    "19": {
+      "nombre": "Tepetitla de Lardizábal"
+    },
+    "44": {
+      "nombre": "Zacatelco"
+    },
+    "51": {
+      "nombre": "San Jerónimo Zacualpan"
+    },
+    "36": {
+      "nombre": "Totolac"
+    },
+    "6": {
+      "nombre": "Calpulalpan"
+    },
+    "18": {
+      "nombre": "Contla de Juan Cuamatzi"
+    },
+    "59": {
+      "nombre": "Santa Cruz Quilehtla"
+    },
+    "39": {
+      "nombre": "Xaloztoc"
+    }
+  }
+}

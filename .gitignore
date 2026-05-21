@@ -3,6 +3,22 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+static/data.json
+*.csv
+
+cen_analysis.py
+data_analysis.py
+
+static/index copy.html
+
+catun_municipio/
+
+catun_municipio.zip
+
+.DS_Store
+__pycache__/
+*.pyc
+
 # C extensions
 *.so
 
