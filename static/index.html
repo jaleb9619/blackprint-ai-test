@@ -615,9 +615,6 @@ tbody td { padding: 9px 14px; color: var(--on-secondary); }
 <div id="header">
   <img src="/static/assets/logo-light.png" alt="BlackPrint" style="height:28px;object-fit:contain;">
   <div class="header-pill">Avalúos · Sep 2024</div>
-  <!-- <div class="header-right">
-    <div id="total-badge">Mostrando <strong id="showing-count">—</strong> avalúos</div>
-  </div> -->
 </div>
 
 <div id="body">
@@ -711,7 +708,7 @@ tbody td { padding: 9px 14px; color: var(--on-secondary); }
       <button class="tab-btn" data-tab="rankings"><img src="/static/assets/icons/sort.svg" class="tab-icon"> Rankings</button>
       <button class="tab-btn" data-tab="comparador"><img src="/static/assets/icons/compare.svg" class="tab-icon"> Comparador</button>
       <button class="tab-btn" data-tab="insights"><img src="/static/assets/icons/layers.svg" class="tab-icon"> Insights</button>
-      <button class="tab-btn" data-tab="table"><img src="/static/assets/icons/filter.svg" class="tab-icon"> Registros</button>
+      <button class="tab-btn" data-tab="table"><img src="/static/assets/icons/search.svg" class="tab-icon"> Buscador</button>
     </div>
 
     <!-- MAP PANEL -->
@@ -2069,26 +2066,59 @@ function buscarComparables() {
   const valor = parseFloat(document.getElementById("comp-valor").value) || null;
   const rec = parseInt(document.getElementById("comp-rec").value) || null;
 
-  let results = [...allRecords];
-  if (estado) results = results.filter(r => r.estado === estado);
-  if (tipo) results = results.filter(r => r.tipo === tipo);
-  if (clase) results = results.filter(r => r.clase === clase);
-  if (rec) results = results.filter(r => rec >= 4 ? r.recamaras >= 4 : r.recamaras === rec);
-  if (valor) results = results.filter(r => r.valor <= valor);
+  // Filtrado progresivo — si hay 0 resultados, relaja filtros
+  const applyFilters = (records, strict = true) => {
+    let r = [...records];
+    if (estado) r = r.filter(x => x.estado === estado);
+    if (tipo) r = r.filter(x => x.tipo === tipo);
+    if (clase && strict) r = r.filter(x => x.clase === clase);
+    if (rec) r = r.filter(x => rec >= 4 ? x.recamaras >= 4 : x.recamaras === rec);
+    if (valor) r = r.filter(x => x.valor <= valor * 1.3); // 30% de tolerancia
+    return r;
+  };
 
-  // Si hay superficie, ordenar por proximidad
+  let results = applyFilters(allRecords, true);
+  let relaxed = false;
+
+  // Si hay menos de 5 resultados, relaja clase
+  if (results.length < 5) {
+    results = applyFilters(allRecords, false);
+    relaxed = true;
+  }
+
+  // Si sigue siendo poco, ampliar valor 50%
+  if (results.length < 5 && valor) {
+    results = allRecords.filter(r => {
+      if (estado && r.estado !== estado) return false;
+      if (tipo && r.tipo !== tipo) return false;
+      if (r.valor > valor * 1.5) return false;
+      return true;
+    });
+    relaxed = true;
+  }
+
+  // Ordenar por proximidad de superficie si se especificó
   if (sup) {
     results = results
       .map(r => ({ ...r, _supDiff: Math.abs((r.sup_construida||0) - sup) }))
       .sort((a,b) => a._supDiff - b._supDiff);
+  } else {
+    // Sin superficie, ordenar por valor más cercano al máximo especificado
+    if (valor) {
+      results = results.sort((a,b) => Math.abs(a.valor - valor) - Math.abs(b.valor - valor));
+    }
   }
 
   const top = results.slice(0, 50);
+  const relaxedMsg = relaxed ? " (filtros relajados para mostrar más resultados)" : "";
+
   document.getElementById("comp-result-count").textContent =
-    `${fmtNum(results.length)} propiedades encontradas — mostrando las ${top.length} más similares`;
+    `${fmtNum(results.length)} propiedades encontradas — mostrando las ${top.length} más similares${relaxedMsg}`;
 
   const tbody = document.getElementById("comparables-body");
-  tbody.innerHTML = top.map(r => `
+  tbody.innerHTML = top.length === 0
+    ? `<tr><td colspan="10" style="text-align:center;padding:20px;color:var(--depth-5)">No se encontraron propiedades. Intenta con menos filtros.</td></tr>`
+    : top.map(r => `
     <tr>
       <td>${r.estado||"—"}</td>
       <td>${r.municipio||"—"}</td>
